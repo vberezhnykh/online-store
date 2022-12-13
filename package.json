@@ -2,9 +2,12 @@
   "name": "online-store",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "webpack serve",
+    "dev": "webpack",
+    "prod": "webpack --node-env=production",
+    "clear": "rd /s /q dist"
   },
   "repository": {
     "type": "git",
@@ -16,5 +19,26 @@
   "bugs": {
     "url": "https://github.com/vberezhnykh/online-store/issues"
   },
-  "homepage": "https://github.com/vberezhnykh/online-store#readme"
+  "homepage": "https://github.com/vberezhnykh/online-store#readme",
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.46.1",
+    "@typescript-eslint/parser": "^5.46.1",
+    "css-loader": "^6.7.2",
+    "eslint": "^8.29.0",
+    "eslint-config-prettier": "^8.5.0",
+    "file-loader": "^6.2.0",
+    "html-loader": "^4.2.0",
+    "html-webpack-plugin": "^5.5.0",
+    "image-webpack-loader": "^8.1.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "prettier": "2.8.1",
+    "sass": "^1.56.2",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.4.2",
+    "typescript": "^4.9.4",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  }
 }
