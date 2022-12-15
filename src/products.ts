@@ -1,4 +1,18 @@
-const PRODUCTS = [
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  discountPercentage: number;
+  rating: number;
+  stock: number;
+  brand: string;
+  category: string;
+  thumbnail: string;
+  images: Array<string>;
+}
+
+const PRODUCTS: Array<Product> = [
   {
     id: 1,
     title: "iPhone 9",

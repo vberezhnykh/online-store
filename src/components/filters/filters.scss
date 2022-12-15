@@ -1,0 +1,25 @@
+.filters {
+  border: 1px solid black;
+}
+
+.category,
+.brand {
+  border: 1px solid black;
+  margin: 10px 0;
+}
+
+.category__heading,
+.brand__heading {
+  text-align: center;
+}
+
+.category-list__item,
+.brand-list__item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+
+  > label {
+    flex-grow: 1;
+  }
+}
