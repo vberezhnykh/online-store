@@ -1,8 +1,78 @@
-h1 {
-  color: green;
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  color: white;
+}
 
-  &:hover {
-    color: red;
+.header, 
+.footer {
+  max-height: 10%;
+  background-color: #222;
+}
+
+.header__container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.link {
+  text-decoration: none;
+  cursor: pointer;
+  color: white;
+}
+
+.logo__link {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+}
+
+.header__cart {
+  position: relative;
+  z-index: 1;
+  &::before {
+    position: absolute;
+    z-index: 2;
+    content: attr(data-value);
+    color: white;
+    font-size: 2rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    top: 25%;
+    right: 25%;
+    width: 50%;
+    height: 50%;
+    border-radius: 50%;
+    background-color: #222;
   }
-  
+}
+
+.link__image,
+.cart__image {
+  height: 70px;
+}
+
+.page {
+  flex: 1;
+  background-color: #303030;
+}
+
+.footer {
+  min-height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+[class*="__container"] {
+  margin: 0 30px;
+  padding: 10px 10px;
 }
