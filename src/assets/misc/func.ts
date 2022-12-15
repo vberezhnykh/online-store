@@ -1,7 +1,7 @@
 import { ICustomElement } from './interfaces'
 
 export function createCustomElement(data: ICustomElement) {
-  let element = document.createElement(data.selector);
+  const element = document.createElement(data.selector);
   element.className = data.class;
   if (data.options) {
       element.setAttribute('src', data.options.src);

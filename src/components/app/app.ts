@@ -8,7 +8,7 @@ class App {
   }
 
   start() {
-    this.view.drawHeader();
+    this.view.drawPage();
   }
   
 }

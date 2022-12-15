@@ -4,10 +4,10 @@ import bagImg from '../../../assets/images/header/bag.svg'
 
 class Header {
   createLogoCart(type: string) {
-    let parent = <HTMLDivElement>createCustomElement({selector : 'div', class : `header__${type}`});
-    let link = <HTMLLinkElement>createCustomElement({selector : 'a', class : `${type}__link link`});
+    const parent = <HTMLDivElement>createCustomElement({selector : 'div', class : `header__${type}`});
+    const link = <HTMLLinkElement>createCustomElement({selector : 'a', class : `${type}__link link`});
     const imgUrl: string = type === 'cart' ? cartImg : bagImg;
-    let linkImg = <HTMLImageElement>createCustomElement({selector :'img', class : `${type}__image`, options : {src : imgUrl, alt : `${type}Logo`}});
+    const linkImg = <HTMLImageElement>createCustomElement({selector :'img', class : `${type}__image`, options : {src : imgUrl, alt : `${type}Image`}});
     link.setAttribute('href', '#');
     link.appendChild(linkImg);
     if (type === 'cart') {

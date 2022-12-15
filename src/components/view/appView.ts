@@ -10,7 +10,7 @@ class AppView {
     this.footer = new Footer();
   }
 
-  drawHeader() {
+  drawPage() {
     this.header.draw();
     this.footer.draw();
   }
