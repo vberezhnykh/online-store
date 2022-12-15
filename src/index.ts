@@ -1,6 +1,6 @@
 import "./index.html";
 import "./main.scss";
-import Filters from "./components/filters/filters";
+import App from "./components/app/app";
 
-const filters = new Filters();
-document.body.appendChild(filters.render());
+const app = new App();
+app.start();

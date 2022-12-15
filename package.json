@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "start": "webpack serve",
+    "build": "webpack --config ./webpack.config.js --node-env=production",
     "dev": "webpack",
     "prod": "webpack --node-env=production",
     "clear": "rd /s /q dist"
