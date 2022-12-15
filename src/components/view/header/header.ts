@@ -1,22 +1,28 @@
-import * as func from '../../misc/func';
+import { createCustomElement } from '../../../assets/misc/func';
+import cartImg from '../../../assets/images/header/cart.svg'
+import bagImg from '../../../assets/images/header/bag.svg'
 
 class Header {
   createLogoCart(type: string) {
-    let parent = <HTMLDivElement>func.createElement1('div', `header__${type}`);
-    console.log(parent);
-    let link = <HTMLLinkElement>func.createElement1('a', `${type}__link link`);
-    console.log(link);
-    let linkImg = <HTMLImageElement>func.createElement1('img', `${type}__image`);
+    let parent = <HTMLDivElement>createCustomElement({selector : 'div', class : `header__${type}`});
+    let link = <HTMLLinkElement>createCustomElement({selector : 'a', class : `${type}__link link`});
+    const imgUrl: string = type === 'cart' ? cartImg : bagImg;
+    let linkImg = <HTMLImageElement>createCustomElement({selector :'img', class : `${type}__image`, options : {src : imgUrl, alt : `${type}Logo`}});
     link.setAttribute('href', '#');
-    link.textContent = 'Online store';
     link.appendChild(linkImg);
+    if (type === 'cart') {
+      parent.setAttribute('data-value', '0')
+    } else {
+      link.innerHTML += 'Online store';
+    }
+    
     parent.appendChild(link);
-    return link;
+    return parent;
   }
   createTotalSum(): HTMLDivElement {
-    const headerTotal = <HTMLDivElement>document.createElement('header__total');
-    const totalText = <HTMLSpanElement>document.createElement('total__text');
-    const totalSum = <HTMLSpanElement>document.createElement('total__sum');
+    const headerTotal = <HTMLDivElement>createCustomElement({selector : 'div', class : 'header__total'});
+    const totalText = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'total__text'});
+    const totalSum = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'total__sum'});
     totalText.textContent = 'Total: $';
     totalSum.textContent = '0.00';
     headerTotal.appendChild(totalText);
@@ -24,7 +30,7 @@ class Header {
     return headerTotal;
   }
   draw() {
-    const container = <HTMLDivElement>document.createElement('header__container');
+    const container = <HTMLDivElement>createCustomElement({selector : 'div', class : 'header__container'});
     container.appendChild(this.createLogoCart('logo'));
     container.appendChild(this.createTotalSum());
     container.appendChild(this.createLogoCart('cart'));
