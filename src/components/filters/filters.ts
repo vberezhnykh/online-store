@@ -9,29 +9,38 @@ abstract class Element {
 }
 
 abstract class List extends Element {
-  protected _heading: HTMLHeadingElement;
+  protected _type: string;
+  protected _className: string;
   protected _savedValues: string[] = [];
   constructor(type: string, className: string) {
     super("div", className);
-    this._heading = document.createElement("h3");
-    this._heading.classList.add(`${className}_heading`);
-    this._heading.textContent = `${type.slice(0, 1).toUpperCase()}${type.slice(
-      1
-    )}`;
-    this._element.appendChild(this._heading);
+    this._type = type;
+    this._className = className;
+  }
+
+  createHeading() {
+    const heading = document.createElement("h3");
+    heading.classList.add(`${this._className}__heading`);
+    heading.textContent = `${this._type
+      .slice(0, 1)
+      .toUpperCase()}${this._type.slice(1)}`;
+    return heading;
+  }
+
+  createItems() {
     const values: { [key: string]: number } = {};
     PRODUCTS.forEach((product) => {
-      if (type === "brand" || type === "category") {
-        if (!Object.prototype.hasOwnProperty.call(values, product[type]))
-          values[product[type]] = 1;
-        else values[product[type]]++;
+      if (this._type === "brand" || this._type === "category") {
+        if (!Object.prototype.hasOwnProperty.call(values, product[this._type]))
+          values[product[this._type]] = 1;
+        else values[product[this._type]]++;
       }
     });
     const container = document.createElement("div");
-    container.className = `${type}-list`;
+    container.className = `${this._type}-list`;
     for (const [key, value] of Object.entries(values)) {
       const item = document.createElement("div");
-      item.className = `${type}-list__item`;
+      item.className = `${this._type}-list__item`;
       const input = document.createElement("input");
       input.type = "checkbox";
       input.value = key;
@@ -44,12 +53,13 @@ abstract class List extends Element {
       item.appendChild(span);
       container.appendChild(item);
     }
+
     container.addEventListener("click", (event) => {
       if (event.target instanceof HTMLInputElement) {
         this.saveValues(event.target);
       }
     });
-    this._element.appendChild(container);
+    return container;
   }
 
   saveValues(input: HTMLInputElement) {
@@ -62,7 +72,9 @@ abstract class List extends Element {
     console.log(this._savedValues);
   }
 
-  render() {
+  draw() {
+    this._element.appendChild(this.createHeading());
+    this._element.appendChild(this.createItems());
     return this._element;
   }
 }
@@ -71,11 +83,13 @@ class CategoryList extends List {
   constructor() {
     super("category", "category");
   }
+  // добавить метод, который будет проверять брэнд лист
 }
 class BrandList extends List {
   constructor() {
     super("brand", "brand");
   }
+  // добавить метод, который будет проверять лист с категориями
 }
 
 class Filters extends Element {
@@ -84,12 +98,12 @@ class Filters extends Element {
   constructor() {
     super("div", "filters");
     this._categoryFilter = new CategoryList();
-    this._element.appendChild(this._categoryFilter.render());
     this._brandsFilter = new BrandList();
-    this._element.appendChild(this._brandsFilter.render());
   }
-  render() {
-    return this._element;
+  draw() {
+    this._element.appendChild(this._categoryFilter.draw());
+    this._element.appendChild(this._brandsFilter.draw());
+    document.querySelector(".page__container")?.append(this._element);
   }
 }
 
