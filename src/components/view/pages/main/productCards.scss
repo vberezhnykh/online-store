@@ -1,0 +1,24 @@
+.card__container {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: 250px;
+}
+
+.card__item,
+.item__heading {
+  padding: 5px 5px;
+}
+
+.card__item {
+  border: solid 1px rgb(41, 154, 16);
+  border-radius: 5px;
+  margin: 5px 5px;
+  color: rgb(146, 87, 6);
+}
+
+.item__heading {
+  border-bottom: solid 1px rgb(41, 154, 16);
+  text-align: center;
+  font-size: 1.2rem;
+  margin: -5px -5px;
+}
