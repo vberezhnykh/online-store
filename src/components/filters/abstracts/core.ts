@@ -13,6 +13,7 @@ export abstract class List extends Element {
   protected _type: string;
   protected _className: string;
   protected _appliedFilters: { [key: string]: string[] } = {};
+  protected _savedFilters: string[] = [];
   constructor(type: string, className: string) {
     super("div", className);
     this._type = type;
@@ -66,41 +67,58 @@ export abstract class List extends Element {
 
   private updateFilterView(event: MouseEvent) {
     if (event.target instanceof HTMLInputElement) {
-      // выделить текущий элемент и снять клик с других элементов
-      const listItem = event.target.parentElement;
-      if (listItem !== null) {
-        // на все фильтры добавляем неактивный фильтр
-        document
-          .querySelectorAll(`.${this._type}-list__item`)
-          .forEach((element) => {
-            if (
-              event.target !== null &&
-              event.target instanceof HTMLInputElement &&
-              event.target.checked
-            ) {
-              element.classList.remove(`${this._type}-list__item--active`);
-              element.classList.add(`${this._type}-list__item--inactive`);
-            } else {
-              element.classList.remove(`${this._type}-list__item--inactive`);
-            }
-          });
-        listItem.classList.remove(`${this._type}-list__item--inactive`);
-        listItem.classList.toggle(`${this._type}-list__item--active`);
-      }
-      // снимаем чекбокс со всех инпутов
-      document
-        .querySelectorAll(`.${this._type}-list__input`)
-        .forEach((input) => {
-          if (input instanceof HTMLInputElement && input !== event.target) {
-            input.checked = false;
-          }
+      const inputs = document.querySelectorAll(`.${this._type}-list__input`);
+      const inputsChecked = Array.from(inputs).filter((input) => {
+        if (input instanceof HTMLInputElement) return input.checked === true;
+      });
+      // если все чекбоксы пустые снимаем все стили и выходим из функции
+      if (inputsChecked.length === 0) {
+        inputs.forEach((input) => {
+          if (input.parentElement !== null)
+            input.parentElement.classList.remove(
+              `${this._type}-list__item--inactive`,
+              `${this._type}-list__item--active`
+            );
         });
+        this._savedFilters = [];
+        return;
+      }
+      // если чекбоксы есть, то подсвечиваем те, что выбраны
+      inputs.forEach((input) => {
+        if (input instanceof HTMLInputElement && input.checked) {
+          input.parentElement?.classList.add(
+            `${this._type}-list__item--active`
+          );
+          input.parentElement?.classList.remove(
+            `${this._type}-list__item--inactive`
+          );
+        } else {
+          input.parentElement?.classList.remove(
+            `${this._type}-list__item--active`
+          );
+          input.parentElement?.classList.add(
+            `${this._type}-list__item--inactive`
+          );
+        }
+      });
+      this.saveFilter(event);
     }
   }
 
   saveFilter(event: MouseEvent) {
-    if (event.target instanceof HTMLInputElement)
-      if (event.target.checked) console.log(event.target.value);
+    if (event.target instanceof HTMLInputElement) {
+      this._savedFilters = [];
+      document
+        .querySelectorAll(`.${this._type}-list__input`)
+        .forEach((input) => {
+          if (input instanceof HTMLInputElement && input.checked)
+            this._savedFilters.push(input.value.toLocaleLowerCase());
+        });
+    }
+  }
+
+  get savedFilters() {
+    return this._savedFilters;
   }
 
   draw() {
@@ -183,7 +201,7 @@ export class DualSlider {
 
   setToggleAccessible(currentTarget: HTMLInputElement) {
     if (this._toSlider) {
-      if (Number(currentTarget.value) <= 0) {
+      if (Number(currentTarget.value) <= 10) {
         this._toSlider.style.zIndex = "2";
       } else this._toSlider.style.zIndex = "0";
     }
