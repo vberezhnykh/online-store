@@ -19,3 +19,12 @@ export interface IProductInfo {
   thumbnail: string;
   images: string[];
 }
+
+export enum CardDetailsOrder {
+  category,
+  brand,
+  price,
+  discountPercentage,
+  rating,
+  stock
+}
