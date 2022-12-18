@@ -58,11 +58,11 @@ class Filters extends Element {
           this._appliedFilters.stock.max = this._stock
             .filteredMaxStock as number;
       }
-      this.showFilteredProducts();
+      console.log(this.returnFilteredProducts());
     }
   }
 
-  showFilteredProducts() {
+  returnFilteredProducts() {
     let filteredProducts = [...PRODUCTS];
     if (Object.keys(this._appliedFilters).length !== 0) {
       // фильтруем по категории
@@ -120,7 +120,7 @@ class Filters extends Element {
         }
       }
     }
-    console.log(filteredProducts);
+    return filteredProducts;
   }
 }
 
