@@ -6,6 +6,8 @@ class Stock extends Element {
   _dualSlider: DualSlider;
   _minStock: number;
   _maxStock: number;
+  _filteredMinStock?: number;
+  _filteredMaxStock?: number;
   constructor() {
     super("div", "stock");
     this._dualSlider = new DualSlider();
@@ -24,7 +26,24 @@ class Stock extends Element {
     this._element.appendChild(
       this._dualSlider.drawDualSlider(this._minStock, this._maxStock)
     );
+    this._element.onclick = (event) => this.saveStockFilter(event);
     return this._element;
+  }
+
+  saveStockFilter(event: MouseEvent) {
+    if (event.target instanceof HTMLInputElement && event.target !== null)
+      if (event.target.classList.contains("sliders-control__input--left")) {
+        this._filteredMinStock = Number(event.target.value);
+      } else {
+        this._filteredMaxStock = Number(event.target.value);
+      }
+  }
+
+  get filteredMinStock() {
+    return this._filteredMinStock;
+  }
+  get filteredMaxStock() {
+    return this._filteredMaxStock;
   }
 }
 

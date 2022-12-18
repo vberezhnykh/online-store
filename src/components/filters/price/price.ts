@@ -4,6 +4,7 @@ import PRODUCTS from "../../../products";
 
 class Price extends Element {
   _dualSlider: DualSlider;
+  _prices: number[];
   _minPrice: number;
   _maxPrice: number;
   _filteredMinPrice?: number;
@@ -11,8 +12,11 @@ class Price extends Element {
   constructor() {
     super("div", "price");
     this._dualSlider = new DualSlider();
-    this._minPrice = Math.min(...PRODUCTS.map((product) => product.price));
-    this._maxPrice = Math.max(...PRODUCTS.map((product) => product.price));
+    this._prices = PRODUCTS.map((product) => product.price).sort(
+      (a, b) => a - b
+    );
+    this._minPrice = this._prices[0];
+    this._maxPrice = this._prices[this._prices.length - 1];
   }
   createHeading() {
     const heading = document.createElement("h3");

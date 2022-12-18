@@ -14,7 +14,7 @@ class Filters extends Element {
     category?: string[];
     brand?: string[];
     price?: { [key: string]: number };
-    stock?: number[];
+    stock?: { [key: string]: number };
   } = {};
   constructor() {
     super("aside", "filters");
@@ -48,6 +48,15 @@ class Filters extends Element {
         else
           this._appliedFilters.price.max = this._price
             .filteredMaxPrice as number;
+      }
+      if (this._stock.filteredMinStock || this._stock.filteredMaxStock) {
+        this._appliedFilters.stock = {};
+        if (this._stock.filteredMinStock)
+          this._appliedFilters.stock.min = this._stock
+            .filteredMinStock as number;
+        else
+          this._appliedFilters.stock.max = this._stock
+            .filteredMaxStock as number;
       }
       this.showFilteredProducts();
     }
@@ -93,8 +102,25 @@ class Filters extends Element {
           }
         }
       }
+      // фильтруем по наличию на складе
+      if (Object.prototype.hasOwnProperty.call(this._appliedFilters, "stock")) {
+        if (this._appliedFilters.stock !== undefined) {
+          if (this._appliedFilters.stock.min) {
+            filteredProducts = filteredProducts.filter((product) => {
+              if (this._appliedFilters.stock !== undefined)
+                return product.stock >= this._appliedFilters.stock.min;
+            });
+          }
+          if (this._appliedFilters.stock.max) {
+            filteredProducts = filteredProducts.filter((product) => {
+              if (this._appliedFilters.stock !== undefined)
+                return product.stock <= this._appliedFilters.stock.max;
+            });
+          }
+        }
+      }
     }
-    // console.log(filteredProducts);
+    console.log(filteredProducts);
   }
 }
 
