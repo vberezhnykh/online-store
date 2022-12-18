@@ -4,7 +4,6 @@ import BrandList from "./brand/brand";
 import Price from "./price/price";
 import Stock from "./stock/stock";
 import PRODUCTS from "../../products";
-import { Product } from "../../assets/misc/interfaces";
 
 class Filters extends Element {
   _categoryFilter: CategoryList;
@@ -14,7 +13,7 @@ class Filters extends Element {
   _appliedFilters: {
     category?: string[];
     brand?: string[];
-    price?: number[];
+    price?: { [key: string]: number };
     stock?: number[];
   } = {};
   constructor() {
@@ -41,6 +40,15 @@ class Filters extends Element {
       if (this._brandsFilter.savedFilters.length !== 0)
         this._appliedFilters.brand = this._brandsFilter.savedFilters;
       else delete this._appliedFilters.brand;
+      if (this._price.filteredMinPrice || this._price.filteredMaxPrice) {
+        this._appliedFilters.price = {};
+        if (this._price.filteredMinPrice)
+          this._appliedFilters.price.min = this._price
+            .filteredMinPrice as number;
+        else
+          this._appliedFilters.price.max = this._price
+            .filteredMaxPrice as number;
+      }
       this.showFilteredProducts();
     }
   }
@@ -68,8 +76,25 @@ class Filters extends Element {
             return product;
         });
       }
+      // фильтруем по цене
+      if (Object.prototype.hasOwnProperty.call(this._appliedFilters, "price")) {
+        if (this._appliedFilters.price !== undefined) {
+          if (this._appliedFilters.price.min) {
+            filteredProducts = filteredProducts.filter((product) => {
+              if (this._appliedFilters.price !== undefined)
+                return product.price >= this._appliedFilters.price.min;
+            });
+          }
+          if (this._appliedFilters.price.max) {
+            filteredProducts = filteredProducts.filter((product) => {
+              if (this._appliedFilters.price !== undefined)
+                return product.price <= this._appliedFilters.price.max;
+            });
+          }
+        }
+      }
     }
-    console.log(filteredProducts);
+    // console.log(filteredProducts);
   }
 }
 
