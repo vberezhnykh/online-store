@@ -28,3 +28,13 @@ export enum CardDetailsOrder {
   rating,
   stock
 }
+
+export enum CardSort {
+  Sort_options,
+  Sort_by_price_ASC,
+  Sort_by_price_DESC,
+  Sort_by_rating_ASC,
+  Sort_by_rating_DESC,
+  Sort_by_discount_ASC,
+  Sort_by_discount_DESC
+}

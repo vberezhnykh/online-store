@@ -1,0 +1,19 @@
+.product__funcs {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.card__display-area {
+  display: flex;
+  flex-direction: row;
+}
+
+.card__display {
+  width: 40px;
+  height: 40px;
+  margin: 0 5px;
+  border-radius: 5px;
+  border: 1px solid rgb(168, 11, 11);
+}

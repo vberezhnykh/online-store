@@ -1,4 +1,4 @@
-import { ICustomElement } from './interfaces'
+import { ICustomElement } from './types'
 
 export function createCustomElement(data: ICustomElement) {
   const element = document.createElement(data.selector);
