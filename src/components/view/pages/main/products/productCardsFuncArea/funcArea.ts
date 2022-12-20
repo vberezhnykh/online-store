@@ -23,9 +23,9 @@ class FuncArea {
   }
 
   createFind() {
-    const found = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__found`});
-    const foundText = <HTMLSpanElement>createCustomElement({selector : 'span', class : `found__text`});
-    const foundCount = <HTMLSpanElement>createCustomElement({selector : 'span', class : `found__count`});
+    const found = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__stat`});
+    const foundText = <HTMLSpanElement>createCustomElement({selector : 'span', class : `stat__text`});
+    const foundCount = <HTMLSpanElement>createCustomElement({selector : 'span', class : `stat__count`});
     foundText.textContent = 'Found: ';
     foundCount.textContent = `${Products.length}`;
     found.appendChild(foundText);
@@ -42,8 +42,31 @@ class FuncArea {
 
   createDisplay() {
     const displayArea = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__display-area`});
-    const displaySmall = <HTMLButtonElement>createCustomElement({selector : 'button', class : `card__display small`});
-    const displayLarge = <HTMLButtonElement>createCustomElement({selector : 'button', class : `card__display large`});
+    const displaySmall = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__display small`});
+    const displayLarge = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__display large`});
+    for(let i=0; i < 16; i +=1 ) {
+      const displayLargeDot = <HTMLDivElement>createCustomElement({selector : 'div', class : `large__dot`});
+      displayLargeDot.textContent = '.';
+      displayLarge.appendChild(displayLargeDot);
+    }
+    for(let i=0; i < 36; i +=1 ) {
+      const displaySmallDot = <HTMLDivElement>createCustomElement({selector : 'div', class : `small__dot`});
+      displaySmallDot.textContent = '.';
+      displaySmall.appendChild(displaySmallDot);
+    }
+    displayLarge.classList.toggle('active');
+    displayArea.addEventListener('click', (e) => {
+      const target = (e.target as HTMLDivElement).parentElement;
+      if (target && !target.classList.contains('active')){
+        displayLarge.classList.toggle('active');
+        displaySmall.classList.toggle('active');
+        (document.querySelectorAll('.card__wrapper') as NodeListOf<HTMLDivElement>).forEach(
+          (el) => {
+            el.classList.toggle('display-small');
+          }
+        );
+      }
+    });
     displayArea.appendChild(displaySmall);
     displayArea.appendChild(displayLarge);
     return displayArea;

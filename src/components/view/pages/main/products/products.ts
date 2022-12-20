@@ -1,7 +1,7 @@
 import ProductCard from "./productCards/productCards";
 import FuncArea from "./productCardsFuncArea/funcArea";
 import { createCustomElement } from '../../../../../assets/misc/func';
-
+import './product.scss';
 class Products {
 
   cardArea: ProductCard;

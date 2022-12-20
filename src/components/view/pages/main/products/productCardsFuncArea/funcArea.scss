@@ -3,6 +3,36 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  background: rgba(24,26,28,.5);
+  padding: .5%;
+  border-bottom: 1px solid orange;
+}
+
+.card__sort {
+  outline: 0;
+  padding: 0 1em;
+  color: #fff;
+  background-color: #181a1c;
+  cursor: pointer;
+  border-radius: 1rem;
+  color: orange;
+  border: 1px solid orange;
+  text-align: center;
+}
+
+.card__stat > * {
+  color: wheat;
+}
+
+.card__search {
+  background-color: #181a1c;
+  border: 1px solid orange;
+  color: orange;
+  border-radius: 2rem;
+  padding: 0.2rem;
+  outline: none;
+  font-size: 80%;
+  text-align: center;
 }
 
 .card__display-area {
@@ -11,9 +41,44 @@
 }
 
 .card__display {
-  width: 40px;
-  height: 40px;
-  margin: 0 5px;
+  width: 2rem;
+  height: 2rem;
+  padding: 1%;
+  margin: 2%;
   border-radius: 5px;
-  border: 1px solid rgb(168, 11, 11);
+  border: 1px solid orange;
+  display: flex;
+  flex-flow: wrap row;
+  align-items: center;
+  justify-content: center;
+}
+
+.active {
+  border: 1px solid red;
+}
+
+.large__dot {
+  white-space: nowrap;
+  width: 20%;
+  height: 20%;
+  margin: 2%;
+  font-size: 50%;
+  border-radius: 100%;
+  overflow: hidden;
+  background: orange;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.small__dot {
+  white-space: nowrap;
+  width: 12%;
+  height: 12%;
+  margin: 2%;
+  font-size: 50%;
+  border-radius: 100%;
+  overflow: hidden;
+  background: orange;
+  -webkit-user-select: none;
+  user-select: none;  
 }

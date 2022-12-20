@@ -1,9 +1,8 @@
-.product__card {
+.product__cards {
   padding: .5%;
   display: flex;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   width: 100%;
-  justify-content: space-around;
 }
 
 .item__heading,
@@ -16,6 +15,11 @@
   width: 23%;
   margin: 1%;
 }
+
+.display-small {
+  width: 14.6%;
+}
+
 .card__item {
   width: 100%;
   height: 100%;
@@ -37,7 +41,6 @@
 }
 
 .item__details-wrapper {
-  width: 55%;
   height: 83%;
 }
 
@@ -50,6 +53,7 @@
   border-bottom: 1px solid orange;
   border-right: 1px solid orange;
   padding: 1%;
+  width: 55%;
 }
 
 .item__category {

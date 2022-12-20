@@ -46,9 +46,9 @@ class ProductCard {
         cardItemDetails.appendChild(cardCategory);
       }
     }
+    cardItemDetailsWrapper.appendChild(cardHeading);
     cardItemDetailsWrapper.appendChild(cardItemDetails);
     card.style.background = `url(${data.thumbnail}) 0% 0% / cover`;
-    card.appendChild(cardHeading);
     card.appendChild(cardItemDetailsWrapper);
     card.appendChild(this.createButtons());
     cardWrapper.appendChild(card);
@@ -56,7 +56,7 @@ class ProductCard {
   }
 
   draw() {
-    const container = <HTMLDivElement>createCustomElement({selector : 'div', class : 'product__card'});
+    const container = <HTMLDivElement>createCustomElement({selector : 'div', class : 'product__cards'});
     for(let i = 0; i < Products.length; i += 1) {
       container.appendChild(this.createCard(Products[i]));
     }
