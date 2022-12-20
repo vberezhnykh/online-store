@@ -37,13 +37,36 @@ class FuncArea {
     const search = <HTMLInputElement>createCustomElement({selector : 'input', class : `card__search`});
     search.type = 'search';
     search.placeholder = 'Search product';
+    search.addEventListener('keyup', () => {
+      const filter: string = search.value.toUpperCase();
+      const cards = document.querySelectorAll('.card__wrapper') as NodeListOf<HTMLDivElement>;
+      let count = 0;
+      for (let i = 0; i < cards.length; i++) {
+        const values = cards[i].querySelectorAll('.item__category-value') as NodeListOf<HTMLSpanElement>;
+        let result = false;
+        for (let j = 0; j < values.length; j++) {
+          const value = values[j].textContent?.trim() as string;
+          if (value.toUpperCase().indexOf(filter) != -1) {
+            result = true;
+            count += 1;
+            break;
+          }
+        }
+        if (result) {
+          (cards[i] as HTMLDivElement).style.display = '';
+        } else {
+          (cards[i] as HTMLDivElement).style.display = 'none';
+        }
+      }
+      (document.querySelector('.stat__count') as HTMLSpanElement).textContent = `${count}`;
+    });
     return search;
   }
 
   createDisplay() {
     const displayArea = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__display-area`});
-    const displaySmall = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__display small`});
-    const displayLarge = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__display large`});
+    const displaySmall = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__display`});
+    const displayLarge = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__display`});
     for(let i=0; i < 16; i +=1 ) {
       const displayLargeDot = <HTMLDivElement>createCustomElement({selector : 'div', class : `large__dot`});
       displayLargeDot.textContent = '.';

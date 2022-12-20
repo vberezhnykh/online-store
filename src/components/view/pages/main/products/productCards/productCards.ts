@@ -20,7 +20,7 @@ class ProductCard {
     const cardWrapper = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__wrapper`});
     const card = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__item`});
     const cardHeading = <HTMLDivElement>createCustomElement({selector : 'div', class : `item__heading`});
-    const cardItemTitle = <HTMLSpanElement>createCustomElement({selector : 'span', class : `item__title`});
+    const cardItemTitle = <HTMLSpanElement>createCustomElement({selector : 'span', class : `item__category-value title`});
     cardItemTitle.textContent = data.title;
     cardHeading.appendChild(cardItemTitle);
     const cardItemDetailsWrapper = <HTMLDivElement>createCustomElement({selector : 'div', class : `item__details-wrapper`});
