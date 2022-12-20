@@ -5,27 +5,64 @@ import "./funcArea.scss";
 
 class FuncArea {
 
-  createSort() {
-    const sort = <HTMLSelectElement>createCustomElement({selector : 'select', class : `card__sort`});
-    console.log(Object.keys(types.CardSort));
-    Object.values(types.CardSort).forEach((element, i) => {
-      const option = <HTMLOptionElement>createCustomElement({selector : 'option', class : `sort__option`});
-      option.textContent = `${element}`.split('_').join(' ');
-      option.value = `${element}`;
-      if (i === 0) {
-        option.textContent += ':';
-        option.disabled = true;
-        option.selected = true;
+  sort(e: Event) {
+    const option  = (e.target as HTMLSelectElement).value;
+    if (option !== 'Sort_options') {
+      let arr = [];
+      const cat = option.split('_').reverse()[1].toUpperCase();
+      const sortType = option.split('_').reverse()[0];
+      const categories = document.querySelectorAll('.item__category') as NodeListOf<HTMLParagraphElement>;
+      for (let i = 0; i < categories.length; i++) {
+        const value = categories[i].textContent?.trim() as string;
+        const parent = categories[i] as HTMLParagraphElement;
+        let obj : {order: number, amount: number} = {order: 0, amount: 0};
+        if (value.toUpperCase().indexOf(cat) != -1) {
+          obj.order = Number((parent.closest('.card__wrapper') as HTMLDivElement).style.order) + 1;
+          obj.amount = Number(parent.querySelector('.item__category-value')?.textContent);
+          arr.push(obj);
+        }
       }
-      sort.appendChild(option);
+      if (sortType === 'ASC') {
+        arr.sort((a,b) => a.amount - b.amount);
+      } else {
+        arr.sort((a,b) => b.amount - a.amount);
+      }
+      console.log(arr);
+      const cards = document.querySelectorAll('.card__wrapper') as NodeListOf<HTMLDivElement>;
+      for (let i = 0; i < cards.length; i++) {
+        arr.forEach((element, index) => {
+          if (element.order === Number(cards[i].style.order) + 1){
+            console.log(index, Number(cards[i].style.order));
+            cards[i].style.order = `${index + 1}`;
+          }
+        });
+      }
+    }
+  }
+
+  createSort() {
+    const sort = <HTMLSelectElement>createCustomElement({selector : 'select', class : 'card__sort'});
+    Object.values(types.CardSort).forEach((element, i) => {
+      if (typeof element === 'string') {
+        const option = <HTMLOptionElement>createCustomElement({selector : 'option', class : 'sort__option'});
+        option.textContent = `${element}`.split('_').join(' ');
+        option.value = `${element}`;
+        if (i === 0) {
+          option.textContent += ':';
+          option.disabled = true;
+          option.selected = true;
+        }
+        sort.appendChild(option);
+      }
     });
+    sort.addEventListener('change',this.sort);
     return sort;
   }
 
   createFind() {
-    const found = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__stat`});
-    const foundText = <HTMLSpanElement>createCustomElement({selector : 'span', class : `stat__text`});
-    const foundCount = <HTMLSpanElement>createCustomElement({selector : 'span', class : `stat__count`});
+    const found = <HTMLDivElement>createCustomElement({selector : 'div', class : 'card__stat'});
+    const foundText = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'stat__text'});
+    const foundCount = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'stat__count'});
     foundText.textContent = 'Found: ';
     foundCount.textContent = `${Products.length}`;
     found.appendChild(foundText);
@@ -34,7 +71,7 @@ class FuncArea {
   }
 
   createSearch() {
-    const search = <HTMLInputElement>createCustomElement({selector : 'input', class : `card__search`});
+    const search = <HTMLInputElement>createCustomElement({selector : 'input', class : 'card__search'});
     search.type = 'search';
     search.placeholder = 'Search product';
     search.addEventListener('keyup', () => {
@@ -64,16 +101,16 @@ class FuncArea {
   }
 
   createDisplay() {
-    const displayArea = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__display-area`});
-    const displaySmall = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__display`});
-    const displayLarge = <HTMLDivElement>createCustomElement({selector : 'div', class : `card__display`});
+    const displayArea = <HTMLDivElement>createCustomElement({selector : 'div', class : 'card__display-area'});
+    const displaySmall = <HTMLDivElement>createCustomElement({selector : 'div', class : 'card__display'});
+    const displayLarge = <HTMLDivElement>createCustomElement({selector : 'div', class : 'card__display'});
     for(let i=0; i < 16; i +=1 ) {
-      const displayLargeDot = <HTMLDivElement>createCustomElement({selector : 'div', class : `large__dot`});
+      const displayLargeDot = <HTMLDivElement>createCustomElement({selector : 'div', class : 'large__dot'});
       displayLargeDot.textContent = '.';
       displayLarge.appendChild(displayLargeDot);
     }
     for(let i=0; i < 36; i +=1 ) {
-      const displaySmallDot = <HTMLDivElement>createCustomElement({selector : 'div', class : `small__dot`});
+      const displaySmallDot = <HTMLDivElement>createCustomElement({selector : 'div', class : 'small__dot'});
       displaySmallDot.textContent = '.';
       displaySmall.appendChild(displaySmallDot);
     }
@@ -96,7 +133,7 @@ class FuncArea {
   }
 
   createCardFuncsArea() {
-    const funcArea = <HTMLDivElement>createCustomElement({selector : 'div', class : `product__funcs`});
+    const funcArea = <HTMLDivElement>createCustomElement({selector : 'div', class : 'product__funcs'});
     funcArea.appendChild(this.createSort());
     funcArea.appendChild(this.createFind());
     funcArea.appendChild(this.createSearch());

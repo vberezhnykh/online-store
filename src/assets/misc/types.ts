@@ -8,6 +8,7 @@ interface IImgOptions {
   alt : string;
 }
 export interface IProductInfo {
+  id: number;
   title: string;
   description: string;
   price: number;
