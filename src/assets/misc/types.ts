@@ -32,10 +32,14 @@ export enum CardDetailsOrder {
 
 export enum CardSort {
   Sort_options,
-  Sort_by_price_ASC,
-  Sort_by_price_DESC,
-  Sort_by_rating_ASC,
-  Sort_by_rating_DESC,
-  Sort_by_discount_ASC,
-  Sort_by_discount_DESC
+  Sort_by_Price_ASC,
+  Sort_by_Price_DESC,
+  Sort_by_Rating_ASC,
+  Sort_by_Rating_DESC,
+  Sort_by_Discount_ASC,
+  Sort_by_Discount_DESC
+}
+export interface ISortObj {
+  order: number; 
+  amount: number;
 }

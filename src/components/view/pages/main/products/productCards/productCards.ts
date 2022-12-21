@@ -39,6 +39,7 @@ class ProductCard {
         }
         cardCategoryValue.textContent = `${value}`;
         cardCategory.textContent = `${category}: `;
+        cardCategoryValue.classList.add(`${category}`);
         if (el[0] === 'price') {
           cardCategory.textContent += '$';
         }

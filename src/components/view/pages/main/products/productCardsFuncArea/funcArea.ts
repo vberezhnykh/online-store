@@ -1,4 +1,4 @@
-import { createCustomElement } from '../../../../../../assets/misc/func';
+import { createCustomElement, quickSort } from '../../../../../../assets/misc/func';
 import * as types from '../../../../../../assets/misc/types';
 import Products from '../../../../../../products';
 import "./funcArea.scss";
@@ -8,34 +8,22 @@ class FuncArea {
   sort(e: Event) {
     const option  = (e.target as HTMLSelectElement).value;
     if (option !== 'Sort_options') {
-      let arr = [];
-      const cat = option.split('_').reverse()[1].toUpperCase();
+      let arr: types.ISortObj[] = [];
+      const cat = option.split('_').reverse()[1];
       const sortType = option.split('_').reverse()[0];
-      const categories = document.querySelectorAll('.item__category') as NodeListOf<HTMLParagraphElement>;
+      const categories = document.querySelectorAll(`.${cat}`) as NodeListOf<HTMLSpanElement>;
       for (let i = 0; i < categories.length; i++) {
         const value = categories[i].textContent?.trim() as string;
-        const parent = categories[i] as HTMLParagraphElement;
-        let obj : {order: number, amount: number} = {order: 0, amount: 0};
-        if (value.toUpperCase().indexOf(cat) != -1) {
-          obj.order = Number((parent.closest('.card__wrapper') as HTMLDivElement).style.order) + 1;
-          obj.amount = Number(parent.querySelector('.item__category-value')?.textContent);
-          arr.push(obj);
-        }
+        const parent = categories[i] as HTMLSpanElement;
+        const obj : types.ISortObj = {order: 0, amount: 0};
+        obj.order = Number((parent.closest('.card__wrapper') as HTMLDivElement).style.order);
+        obj.amount = parseFloat(value);
+        arr.push(obj);
       }
-      if (sortType === 'ASC') {
-        arr.sort((a,b) => a.amount - b.amount);
-      } else {
-        arr.sort((a,b) => b.amount - a.amount);
-      }
-      console.log(arr);
+      const sortedArr = sortType === 'ASC' ? quickSort(arr, sortType) : quickSort(arr, sortType).reverse();
       const cards = document.querySelectorAll('.card__wrapper') as NodeListOf<HTMLDivElement>;
       for (let i = 0; i < cards.length; i++) {
-        arr.forEach((element, index) => {
-          if (element.order === Number(cards[i].style.order) + 1){
-            console.log(index, Number(cards[i].style.order));
-            cards[i].style.order = `${index + 1}`;
-          }
-        });
+        cards[i].style.order = `${sortedArr.findIndex(obj => Number(cards[i].style.order) === obj.order) + 1}`;
       }
     }
   }
