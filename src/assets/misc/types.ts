@@ -43,3 +43,9 @@ export interface ISortObj {
   order: number; 
   amount: number;
 }
+
+export enum DetailsNav {
+  category,
+  brand,
+  title
+}

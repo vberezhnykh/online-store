@@ -1,0 +1,33 @@
+.details__nav, 
+.nav__list {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+.nav__list {
+  display: flex;
+  flex-flow: nowrap row;
+  width: 100%;
+}
+
+.list__item {
+  &:not(:last-child) {
+    &:after {
+      content: '>>';
+    }
+  }
+  &:last-child {
+    display: flex;
+    justify-content: flex-start;
+  }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex-grow: 1;
+}
+
+.item__link {  
+  text-decoration: none;
+  color: wheat;
+}
