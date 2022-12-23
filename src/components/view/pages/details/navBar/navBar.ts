@@ -26,7 +26,7 @@ class NavBar {
   }
 
   draw() {
-    (document.querySelector('.details__container') as HTMLDivElement).appendChild(this.createNavigation());
+    (document.querySelector('.page__details') as HTMLDivElement).appendChild(this.createNavigation());
   }
 }
 

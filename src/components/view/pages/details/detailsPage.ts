@@ -14,7 +14,7 @@ class DetailsPage {
   }
 
   draw() {
-    const container = <HTMLElement>createCustomElement({selector : 'section', class : 'details__container'});
+    const container = <HTMLElement>createCustomElement({selector : 'div', class : 'page__details'});
     (document.querySelector('.page__container') as HTMLDivElement).appendChild(container);
     this.nav.draw();
     this.details.draw();

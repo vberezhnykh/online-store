@@ -83,7 +83,7 @@ class ProductDetails {
   }
 
   draw() {
-    (document.querySelector('.details__container') as HTMLDivElement).appendChild(this.createDetails());
+    (document.querySelector('.page__details') as HTMLDivElement).appendChild(this.createDetails());
   }
 }
 
