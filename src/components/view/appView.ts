@@ -1,16 +1,18 @@
 import Header from "./header/header";
 import Footer from "./footer/footer";
 import Main from "./pages/main/mainPage";
+import Cart from "./pages/cart/cartPage";
 
 class AppView {
   header: Header;
   footer: Footer;
-  page: Main;
+  // page: Main;
+  page: Cart;
 
   constructor() {
     this.header = new Header();
     this.footer = new Footer();
-    this.page = new Main();
+    this.page = new Cart();
   }
 
   drawPage() {

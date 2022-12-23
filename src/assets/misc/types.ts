@@ -43,3 +43,17 @@ export interface ISortObj {
   order: number; 
   amount: number;
 }
+
+export enum CartText {
+  title = 'Products in Cart',
+  titleItemLimit = 'Items: ',
+  titlePageAmount = 'Page: ',
+  summary = 'Summary',
+  summaryProduct = 'Products: ',
+  summaryTotal = 'Total: '
+}
+
+export enum CartDefaultTitle{
+  items = 3,
+  pages = 1
+}

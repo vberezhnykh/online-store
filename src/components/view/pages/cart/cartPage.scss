@@ -1,0 +1,51 @@
+.product__title {
+  display: flex;
+  background-color: #181a1c;
+  padding: 0.3rem;
+  border-bottom: 1px solid orange;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.product__heading {
+  font-size: 130%;
+}
+
+.product__control {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.limit__text, 
+.page__text {
+  color: wheat;
+}
+
+.limit__amount {
+  width: 2rem;
+  text-align: center;
+  outline: none;
+  border: 1px solid orange;
+  border-radius: 0.2rem;
+  background-color: #373636;
+  font-size: 140%;
+}
+
+.control__page {
+  margin-left: 2rem;
+}
+
+.page__button {
+  background-color: #373636;
+  cursor: pointer;
+  border: 1px solid orange;
+  border-radius: 0.2rem;
+  padding: 0.1rem;
+  font-size: 140%;
+}
+
+.page__amount {
+  font-size: 140%;
+  margin: 0 0.5rem;
+}
