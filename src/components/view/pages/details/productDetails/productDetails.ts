@@ -35,8 +35,9 @@ class ProductDetails {
     const productInfo = Object.entries(data);
     for(let el of productInfo) {
       if (Object.values(types.DetailsOrder).includes(el[0])) {
-        const cardCategory = <HTMLHeadingElement>createCustomElement({selector : 'h3', class : 'item__category'});
-        const cardCategoryValue = <HTMLParagraphElement>createCustomElement({selector : 'p', class : 'item__category-value'});
+        const detail = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__detail'});
+        const cardCategory = <HTMLHeadingElement>createCustomElement({selector : 'h3', class : 'detail__category'});
+        const cardCategoryValue = <HTMLParagraphElement>createCustomElement({selector : 'p', class : 'detail__category-value'});
         let category = el[0].charAt(0).toUpperCase().concat(el[0].slice(1));
         let value = el[1];
         if (el[0] === 'discountPercentage') {
@@ -45,10 +46,11 @@ class ProductDetails {
         }
         cardCategoryValue.textContent = `${value}`;
         cardCategory.textContent = `${category}: `;
-        cardCategoryValue.classList.add(`${category.split(' ').join('')}`);
+        cardCategoryValue.classList.add(`${el[0].split(' ').join('')}`);
         cardCategory.style.order = `${Object.values(types.DetailsOrder).indexOf(el[0])}`;
-        productInfoWrapper.appendChild(cardCategory);
-        productInfoWrapper.appendChild(cardCategoryValue);
+        detail.appendChild(cardCategory);
+        detail.appendChild(cardCategoryValue);
+        productInfoWrapper.appendChild(detail);
       }
     }
     return productInfoWrapper;

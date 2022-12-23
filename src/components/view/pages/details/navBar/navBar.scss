@@ -14,21 +14,23 @@
 
 .list__item {
   &:not(:last-child) {
+    align-self: flex-start;
     &:after {
       content: '>>';
     }
   }
   &:last-child {
     display: flex;
-    justify-content: flex-start;
+    flex-grow: 0.5;
+    justify-content: center;
   }
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-around;
   flex-grow: 1;
 }
 
-.item__link {  
+.item__link {
   text-decoration: none;
   color: wheat;
 }
