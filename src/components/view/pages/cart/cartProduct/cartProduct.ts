@@ -50,48 +50,53 @@ class CartProduct {
     return title;
   }
 
-  createCard(data: Omit<types.IProductInfo, 'images'>) {
-    const cardWrapper = <HTMLDivElement>createCustomElement({selector : 'div', class : 'card__wrapper'});
-    cardWrapper.style.order = `${data.id}`;
-    const card = <HTMLDivElement>createCustomElement({selector : 'div', class : 'card__item'});
-    const cardHeading = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__heading'});
-    const cardItemTitle = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'item__category-value title'});
-    cardItemTitle.textContent = data.title;
-    cardHeading.appendChild(cardItemTitle);
-    const cardItemDetailsWrapper = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__details-wrapper'});
-    const cardItemDetails = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__details'});
-    const cardInfo = Object.entries(data);
-    for(let el of cardInfo) {
-      if (Object.values(types.CardDetailsOrder).includes(el[0])) {
-        const cardCategory = <HTMLParagraphElement>createCustomElement({selector : 'p', class : 'item__category'});
-        const cardCategoryValue = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'item__category-value'});
-        let category = el[0].charAt(0).toLocaleUpperCase().concat(el[0].slice(1));
-        let value = el[1];
-        if (el[0] === 'discountPercentage') {
-          value = `${el[1]}%`;
-          category = 'Discount';
-        }
-        cardCategoryValue.textContent = `${value}`;
-        cardCategory.textContent = `${category}: `;
-        cardCategoryValue.classList.add(`${category}`);
-        if (el[0] === 'price') {
-          cardCategory.textContent += '$';
-        }
-        cardCategory.appendChild(cardCategoryValue);
-        cardCategory.style.order = `${Object.values(types.CardDetailsOrder).indexOf(el[0])}`;
-        cardItemDetails.appendChild(cardCategory);
-      }
-    }
-    cardItemDetailsWrapper.appendChild(cardHeading);
-    cardItemDetailsWrapper.appendChild(cardItemDetails);
-    card.style.background = `url(${data.thumbnail}) 0% 0% / cover`;
-    card.appendChild(cardItemDetailsWrapper);
-    cardWrapper.appendChild(card);
-    return cardWrapper;
+  createOther(data: Pick<types.IProductInfo, 'rating' | 'discountPercentage'>) {
+    const other = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__other'});
+    const rating = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'other__rating'});
+    const discount = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'other__discount'});
+    rating.textContent = `Rating: ${data.rating}`;
+    discount.textContent = `Rating: ${data.discountPercentage}`;
+    other.appendChild(rating);
+    other.appendChild(discount);
+    return other;
+  }
+
+  createDetails(data: Omit<types.IProductInfo, 'images'>) {
+    const details = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__details'});
+    const title = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__title'});
+    const titleText = <HTMLHeadingElement>createCustomElement({selector : 'h3', class : 'title__text'});
+    titleText.textContent = data.title;
+    title.appendChild(titleText);
+    const description = <HTMLParagraphElement>createCustomElement({selector : 'p', class : 'item__description'});
+    description.textContent = data.description;
+    details.appendChild(title);
+    details.appendChild(description);
+    details.appendChild(this.createOther(data));
+    return details;
+  }
+
+  createInfo(data: Omit<types.IProductInfo, 'images'>) {
+    const info = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__info'});
+    const image = <HTMLImageElement>createCustomElement({selector : 'img', class : 'item__image', options : {src : data.thumbnail, alt : `ItemImage`}});
+    info.appendChild(image);
+    info.appendChild(this.createDetails(data));
+    return info;
+  }
+
+  createProduct(data: Omit<types.IProductInfo, 'images'>, index: number) {
+    const products = <HTMLDivElement>createCustomElement({selector : 'div', class : 'cart__items'});
+    const item = <HTMLDivElement>createCustomElement({selector : 'div', class : 'list__item'});
+    const itemNumber = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__number'});
+    itemNumber.textContent = `${index}`;
+    item.appendChild(itemNumber);
+    item.appendChild(this.createInfo(data));
+    products.appendChild(item);
+    return products;
   }
 
   draw() {
     (document.querySelector('.cart__page') as HTMLDivElement).appendChild(this.createHeading());
+    (document.querySelector('.cart__page') as HTMLDivElement).appendChild(this.createProduct(Products[0], 1));
   }
 }
 
