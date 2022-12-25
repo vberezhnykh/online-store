@@ -30,6 +30,14 @@ export enum CardDetailsOrder {
   stock
 }
 
+export enum DetailsOrder {
+  description,
+  discountPercentage,
+  rating,
+  stock,
+  brand,
+  category
+}
 export enum CardSort {
   Sort_options,
   Sort_by_Price_ASC,
@@ -42,4 +50,10 @@ export enum CardSort {
 export interface ISortObj {
   order: number; 
   amount: number;
+}
+
+export enum DetailsNav {
+  category,
+  brand,
+  title
 }
