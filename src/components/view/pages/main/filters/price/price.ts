@@ -1,7 +1,7 @@
 import { BaseElement } from "../abstracts/core";
 import { DualSlider } from "../abstracts/core";
 import PRODUCTS from "../../../../../../products";
-import { AppliedFilters, Options } from "../../../../../../assets/misc/types";
+import { Options } from "../../../../../../assets/misc/types";
 
 class Price extends BaseElement {
   _dualSlider: DualSlider;
@@ -18,8 +18,6 @@ class Price extends BaseElement {
     );
     this._minPrice = this._prices[0];
     this._maxPrice = this._prices[this._prices.length - 1];
-    /* this._filteredMinPrice = this._minPrice;
-    this._filteredMaxPrice = this._maxPrice; */
   }
   createHeading() {
     const heading = document.createElement("h3");
@@ -33,7 +31,9 @@ class Price extends BaseElement {
       this._dualSlider._fromSlider &&
       this._dualSlider._fromValue &&
       this._dualSlider._toSlider &&
-      this._dualSlider._toValue
+      this._dualSlider._toValue &&
+      options.price.min &&
+      options.price.max
     ) {
       this._dualSlider._fromSlider.value = options.price.min.toString();
       this._dualSlider._fromValue.textContent = options.price.min.toString();

@@ -40,10 +40,8 @@ class Filters extends BaseElement {
       this._appliedFilters = {};
       if (this._categoryFilter.savedFilters.length !== 0)
         this._appliedFilters.category = this._categoryFilter.savedFilters;
-      // else delete this._appliedFilters.category;
       if (this._brandsFilter.savedFilters.length !== 0)
         this._appliedFilters.brand = this._brandsFilter.savedFilters;
-      // else delete this._appliedFilters.brand;
       if (this._price._filteredMinPrice) {
         if (!this._appliedFilters.price) this._appliedFilters.price = {};
         this._appliedFilters.price.min = this._price._filteredMinPrice;
@@ -52,13 +50,14 @@ class Filters extends BaseElement {
         if (!this._appliedFilters.price) this._appliedFilters.price = {};
         this._appliedFilters.price.max = this._price._filteredMaxPrice;
       }
-      /* if (this._stock.filteredMinStock || this._stock.filteredMaxStock) {
-        this._appliedFilters.stock = {
-          min: this._stock._filteredMinStock,
-          max: this._stock._filteredMaxStock,
-        };
-      } */
-      console.log(this._appliedFilters);
+      if (this._stock.filteredMinStock) {
+        if (!this._appliedFilters.stock) this._appliedFilters.stock = {};
+        this._appliedFilters.stock.min = this._stock._filteredMinStock;
+      }
+      if (this._stock._filteredMaxStock) {
+        if (!this._appliedFilters.stock) this._appliedFilters.stock = {};
+        this._appliedFilters.stock.max = this._stock._filteredMaxStock;
+      }
       this.filterProducts();
       this.updateView(event);
     }
@@ -96,10 +95,10 @@ class Filters extends BaseElement {
         options[key] = prop;
       }
     }
-
     this._categoryFilter.updateCategoryView(event, options);
     this._brandsFilter.updateBrandView(event, options);
     this._price.updatePriceView(options);
+    this._stock.updateStockView(options);
     this.updateCardsView();
   }
 

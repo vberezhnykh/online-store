@@ -65,7 +65,11 @@ export interface Options {
     [key: string]: number;
   };
   price: {
-    [key: string]: number;
+    min?: number;
+    max?: number;
   };
-  stock: object;
+  stock: {
+    min?: number;
+    max?: number;
+  };
 }
