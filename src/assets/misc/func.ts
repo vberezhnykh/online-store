@@ -12,7 +12,7 @@ export function createCustomElement(data: ICustomElement) {
 
 export function quickSort(arr: ISortObj[], sortType: string): ISortObj[] {
   if (arr.length < 2) return arr;
-  let curr: ISortObj = arr[0];
+  const curr: ISortObj = arr[0];
   const left: ISortObj[] = [];
   const right: ISortObj[] = [];
   for (let i = 1; i < arr.length; i++) {

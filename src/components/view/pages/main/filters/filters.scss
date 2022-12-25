@@ -6,6 +6,26 @@
   align-self: baseline;
 }
 
+.filters-buttons-container {
+  border: 0.5px solid black;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 10px;
+  background-color: rgba(24,26,28,.5);
+  display: flex;
+  justify-content: space-around;
+}
+
+.filters-buttons-container__reset-button,
+.filters-buttons-container__copy-button {
+  background-color: #181a1c;
+  border: 1px solid orange;
+  border-radius: 0.3rem;
+  padding-left: 2%;
+  padding-right: 2%;
+  cursor: pointer;
+}
+
 .category,
 .brand {
   border: 0.5px solid black;

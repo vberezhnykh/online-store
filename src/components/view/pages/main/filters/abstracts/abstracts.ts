@@ -62,6 +62,29 @@ export abstract class List extends BaseElement {
     return container;
   }
 
+  resetStateToDefault() {
+    document.querySelectorAll(`.${this._type}-list__input`).forEach((input) => {
+      if (
+        input instanceof HTMLInputElement &&
+        input.parentElement &&
+        input.parentElement.lastChild
+      ) {
+        if (input.checked) input.click();
+        else {
+          input.parentElement.classList.remove(
+            `${this._type}-list__item--inactive`,
+            `${this._type}-list__item--active`
+          );
+          const numberOfProducts = input.parentElement.lastChild.textContent;
+          const totalNumberOfProducts = numberOfProducts
+            ?.split("/")[1]
+            .slice(0, -1);
+          input.parentElement.lastChild.textContent = `(${totalNumberOfProducts}/${totalNumberOfProducts})`;
+        }
+      }
+    });
+  }
+
   public updateFilterView(event: MouseEvent) {
     if (
       event.target instanceof HTMLInputElement &&

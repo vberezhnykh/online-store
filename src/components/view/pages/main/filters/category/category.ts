@@ -1,11 +1,15 @@
 import { Options } from "../../../../../../assets/misc/types";
-import { List } from "../abstracts/core";
+import { List } from "../abstracts/abstracts";
 
 class CategoryList extends List {
   constructor() {
     super("category", "category");
   }
   updateCategoryView(event: MouseEvent, options: Options) {
+    if (event.target instanceof HTMLButtonElement) {
+      this.resetStateToDefault();
+      return;
+    }
     this.updateFilterView(event);
     const inputs = document.querySelectorAll(".category-list__input");
     const nonTargetInputs = document.querySelectorAll(".brand-list__input");

@@ -1,4 +1,4 @@
-import { BaseElement } from "./abstracts/core";
+import { BaseElement } from "./abstracts/abstracts";
 import CategoryList from "./category/category";
 import BrandList from "./brand/brand";
 import Price from "./price/price";
@@ -10,6 +10,7 @@ import {
   Options,
 } from "../../../../../assets/misc/types";
 import MainPage from "../mainPage";
+import { createCustomElement } from "../../../../../assets/misc/func";
 
 class Filters extends BaseElement {
   _Page: MainPage;
@@ -27,15 +28,39 @@ class Filters extends BaseElement {
     this._price = new Price();
     this._stock = new Stock();
   }
+
+  createButtons() {
+    const container = createCustomElement({
+      selector: "div",
+      class: "filters-buttons-container",
+    });
+    const resetButton = <HTMLButtonElement>createCustomElement({
+      selector: "button",
+      class: "filters-buttons-container__reset-button",
+    });
+    resetButton.innerHTML = "Reset Filters";
+    resetButton.value = "reset";
+    resetButton.onclick = (event) => this.removeAppliedFilter(event);
+    container.appendChild(resetButton);
+    const copyButton = createCustomElement({
+      selector: "button",
+      class: "filters-buttons-container__copy-button",
+    });
+    copyButton.innerHTML = "Copy Link";
+    container.appendChild(copyButton);
+    return container;
+  }
+
   draw() {
+    this._element.appendChild(this.createButtons());
     this._element.appendChild(this._categoryFilter.draw());
     this._element.appendChild(this._brandsFilter.draw());
     this._element.appendChild(this._price.draw());
     this._element.appendChild(this._stock.draw());
     document.querySelector(".page__container")?.prepend(this._element);
-    this._element.onclick = (event) => this.saveFilter(event);
+    this._element.onclick = (event) => this.applyFilter(event);
   }
-  saveFilter(event: MouseEvent) {
+  applyFilter(event: MouseEvent) {
     if (event.target instanceof HTMLInputElement) {
       this._appliedFilters = {};
       if (this._categoryFilter.savedFilters.length !== 0)
@@ -63,16 +88,17 @@ class Filters extends BaseElement {
     }
   }
 
-  /* clearView() {
-    this._element.innerHTML = "";
-    if (document.querySelector(".page__container") !== null)
-      (document.querySelector(".page__container") as HTMLElement).innerHTML =
-        "";
-    this._categoryFilter._element.innerHTML = "";
-    this._brandsFilter._element.innerHTML = "";
-    this._price._element.innerHTML = "";
-    this._stock._element.innerHTML = "";
-  } */
+  removeAppliedFilter(event: MouseEvent) {
+    this._appliedFilters = {};
+    this._categoryFilter.savedFilters.length = 0;
+    this._brandsFilter.savedFilters.length = 0;
+    this._price._filteredMinPrice = undefined;
+    this._price._filteredMaxPrice = undefined;
+    this._stock._filteredMinStock = undefined;
+    this._stock._filteredMaxStock = undefined;
+    this.filterProducts();
+    this.updateView(event);
+  }
 
   updateView(event: MouseEvent) {
     const options = {} as Options;

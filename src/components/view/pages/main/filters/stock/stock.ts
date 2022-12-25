@@ -1,5 +1,5 @@
-import { BaseElement } from "../abstracts/core";
-import { DualSlider } from "../abstracts/core";
+import { BaseElement } from "../abstracts/abstracts";
+import { DualSlider } from "../abstracts/abstracts";
 import PRODUCTS from "../../../../../../products";
 import { Options } from "../../../../../../assets/misc/types";
 
