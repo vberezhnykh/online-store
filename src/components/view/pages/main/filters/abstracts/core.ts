@@ -1,7 +1,7 @@
-import PRODUCTS from "../../../products";
-import { createCustomElement } from "../../../assets/misc/func";
+import PRODUCTS from "../../../../../../products";
+import { createCustomElement } from "../../../../../../assets/misc/func";
 
-export abstract class Element {
+export abstract class BaseElement {
   _element: HTMLElement;
   constructor(tagName: string, className: string) {
     this._element = document.createElement(tagName);
@@ -9,10 +9,9 @@ export abstract class Element {
   }
 }
 
-export abstract class List extends Element {
+export abstract class List extends BaseElement {
   protected _type: string;
   protected _className: string;
-  protected _appliedFilters: { [key: string]: string[] } = {};
   protected _savedFilters: string[] = [];
   constructor(type: string, className: string) {
     super("div", className);
@@ -42,11 +41,11 @@ export abstract class List extends Element {
     container.className = `${this._type}-list`;
     for (const [key, value] of Object.entries(values)) {
       const item = document.createElement("div");
-      item.className = `${this._type}-list__item`;
+      item.classList.add(`${this._type}-list__item`);
       const input = document.createElement("input");
       input.type = "checkbox";
       input.value = key;
-      input.className = `${this._type}-list__input`;
+      input.classList.add(`${this._type}-list__input`);
       item.appendChild(input);
       const label = document.createElement("label");
       label.textContent = key;
@@ -58,50 +57,61 @@ export abstract class List extends Element {
     }
 
     container.addEventListener("click", (event) => {
-      this.updateFilterView(event);
-      // this.saveFilter(event);
-      // this._appliedFilters =
+      this.saveFilter(event);
     });
     return container;
   }
 
-  private updateFilterView(event: MouseEvent) {
-    if (event.target instanceof HTMLInputElement) {
-      const inputs = document.querySelectorAll(`.${this._type}-list__input`);
-      const inputsChecked = Array.from(inputs).filter((input) => {
+  public updateFilterView(event: MouseEvent) {
+    if (
+      event.target instanceof HTMLInputElement &&
+      event.target.classList.value.includes(this._type)
+    ) {
+      const targetInputs = document.querySelectorAll(
+        `.${this._type}-list__input`
+      );
+      const targetCheckedInputs = Array.from(targetInputs).filter((input) => {
         if (input instanceof HTMLInputElement) return input.checked === true;
       });
       // если все чекбоксы пустые снимаем все стили и выходим из функции
-      if (inputsChecked.length === 0) {
-        inputs.forEach((input) => {
-          if (input.parentElement !== null)
+      if (targetCheckedInputs.length === 0) {
+        targetInputs.forEach((input) => {
+          if (input.parentElement && input.parentElement.lastChild) {
             input.parentElement.classList.remove(
               `${this._type}-list__item--inactive`,
               `${this._type}-list__item--active`
             );
+            // и возвращаем стандартные значения
+            const numberOfProducts = input.parentElement.lastChild.textContent;
+            const totalNumberOfProducts = numberOfProducts
+              ?.split("/")[1]
+              .slice(0, -1);
+            input.parentElement.lastChild.textContent = `(${totalNumberOfProducts}/${totalNumberOfProducts})`;
+          }
         });
         this._savedFilters = [];
         return;
       }
-      // если чекбоксы есть, то подсвечиваем те, что выбраны
-      inputs.forEach((input) => {
-        if (input instanceof HTMLInputElement && input.checked) {
-          input.parentElement?.classList.add(
-            `${this._type}-list__item--active`
-          );
-          input.parentElement?.classList.remove(
-            `${this._type}-list__item--inactive`
-          );
-        } else {
-          input.parentElement?.classList.remove(
-            `${this._type}-list__item--active`
-          );
-          input.parentElement?.classList.add(
-            `${this._type}-list__item--inactive`
-          );
+
+      targetInputs.forEach((input) => {
+        if (input instanceof HTMLInputElement && input.parentElement) {
+          if (input.checked) {
+            input.parentElement.classList.add(
+              `${this._type}-list__item--active`
+            );
+            input.parentElement.classList.remove(
+              `${this._type}-list__item--inactive`
+            );
+          } else {
+            input.parentElement.classList.add(
+              `${this._type}-list__item--inactive`
+            );
+            input.parentElement.classList.remove(
+              `${this._type}-list__item--active`
+            );
+          }
         }
       });
-      this.saveFilter(event);
     }
   }
 

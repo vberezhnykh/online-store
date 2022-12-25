@@ -1,6 +1,6 @@
-import { Product } from "./assets/misc/interfaces";
+import { IProductInfo } from "./assets/misc/types";
 
-const PRODUCTS: Array<Product> = [
+const PRODUCTS: Array<IProductInfo> = [
   {
     id: 1,
     title: "iPhone 9",

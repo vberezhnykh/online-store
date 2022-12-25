@@ -4,8 +4,8 @@ export interface ICustomElement {
   options?: IImgOptions;
 }
 interface IImgOptions {
-  src : string; 
-  alt : string;
+  src: string;
+  alt: string;
 }
 export interface IProductInfo {
   id: number;
@@ -27,7 +27,7 @@ export enum CardDetailsOrder {
   price,
   discountPercentage,
   rating,
-  stock
+  stock,
 }
 
 export enum CardSort {
@@ -37,9 +37,35 @@ export enum CardSort {
   Sort_by_Rating_ASC,
   Sort_by_Rating_DESC,
   Sort_by_Discount_ASC,
-  Sort_by_Discount_DESC
+  Sort_by_Discount_DESC,
 }
 export interface ISortObj {
-  order: number; 
+  order: number;
   amount: number;
+}
+
+export interface AppliedFilters {
+  category?: string[];
+  brand?: string[];
+  price?: {
+    min?: number;
+    max?: number;
+  };
+  stock?: {
+    min?: number;
+    max?: number;
+  };
+}
+
+export interface Options {
+  category: {
+    [key: string]: number;
+  };
+  brand: {
+    [key: string]: number;
+  };
+  price: {
+    [key: string]: number;
+  };
+  stock: object;
 }

@@ -1,8 +1,9 @@
 .filters {
-  border: 1px solid white;
-  border-radius: 5px;
+  border: 1px solid orange;
+  border-radius: 0.7rem;
   color: black;
-  max-width: 30%;
+  min-width: 30%;
+  align-self: baseline;
 }
 
 .category,
@@ -11,7 +12,7 @@
   border-radius: 5px;
   margin: 10px;
   padding: 10px;
-  background-color: #19bf55;
+  background-color: rgba(24,26,28,.5);
 }
 
 .category__heading,
@@ -31,7 +32,7 @@
   padding-right: 10px;
 
   &::-webkit-scrollbar {
-    background-color: hsl(142, 77%, 60%);
+    background-color: orange;
     width: 8px;
     border-radius: 5px;
   }
@@ -69,7 +70,8 @@
   border-radius: 5px;
   margin: 10px;
   padding: 10px;
-  background-color: #19bf55;
+  // background-color: #19bf55;
+  background-color: rgba(24,26,28,.5);;
 }
 
 .range-container {
@@ -114,7 +116,7 @@
 }
 
 .sliders-control__input::-webkit-slider-thumb:hover {
-  background: red;
+  background: orange
 }
 
 .sliders-control__input::-webkit-slider-thumb:active {
