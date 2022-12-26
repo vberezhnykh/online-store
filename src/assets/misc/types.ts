@@ -58,9 +58,18 @@ export enum DetailsNav {
   title,
 }
 
-export interface PersonalDetailsPlaceholders {
-  name: string;
-  number: string;
-  address: string;
-  email: string;
+export type ValidationFunc = (input: HTMLInputElement) => void;
+
+interface InputAttributes {
+  type: string;
+  placeholder: string;
+  min?: string;
+  /*  validationFunc?: ValidationFunc; */
+}
+
+export interface PersonalDetailsInputs {
+  name: InputAttributes;
+  number: InputAttributes;
+  address: InputAttributes;
+  email: InputAttributes;
 }

@@ -1,18 +1,22 @@
 import { createCustomElement } from "../../../../assets/misc/func";
-import { PersonalDetailsPlaceholders } from "../../../../assets/misc/types";
+import { PersonalDetailsInputs } from "../../../../assets/misc/types";
 
 export class PersonalDetails {
-  showErrorMessage(event: Event, className: string) {
-    if (
-      event.target instanceof HTMLInputElement &&
-      event.target.nextElementSibling
-    )
-      event.target.nextElementSibling.classList.toggle(
-        `${className}__error--active`
-      );
+  toggleErrorMessage(
+    input: HTMLInputElement,
+    className: string,
+    isValid: boolean
+  ) {
+    if (input.nextElementSibling)
+      if (isValid)
+        input.nextElementSibling.classList.remove(
+          `${className}__error--active`
+        );
+      else
+        input.nextElementSibling.classList.add(`${className}__error--active`);
   }
 
-  createInput(className: string, placeholder: string) {
+  createInput(className: string, placeholder: string, type: string) {
     const container = createCustomElement({
       selector: "div",
       class: `${className}-container`,
@@ -23,7 +27,8 @@ export class PersonalDetails {
     });
     container.appendChild(input);
     input.placeholder = placeholder;
-    // input.onclick = (event) => this.showErrorMessage(event, className);
+    input.type = type;
+    if (className === "name") input.onkeyup = () => this.validateName(input);
     const error = createCustomElement({
       selector: "div",
       class: `${className}__error`,
@@ -34,11 +39,24 @@ export class PersonalDetails {
   }
 
   createPersonalDetails() {
-    const PLACEHOLDERS: PersonalDetailsPlaceholders = {
-      name: "Name",
-      number: "Phone number",
-      address: "Delivery address",
-      email: "E-mail",
+    const PERSONAL_DETAILS: PersonalDetailsInputs = {
+      name: {
+        type: "text",
+        placeholder: "Name",
+        min: "7",
+      },
+      number: {
+        type: "tel",
+        placeholder: "Phone number",
+      },
+      address: {
+        type: "text",
+        placeholder: "Delivery address",
+      },
+      email: {
+        type: "email",
+        placeholder: "E-mail",
+      },
     };
     const personalDetails = createCustomElement({
       selector: "div",
@@ -50,10 +68,41 @@ export class PersonalDetails {
     });
     heading.textContent = "Personal details";
     personalDetails.append(heading);
-    personalDetails.append(this.createInput("name", PLACEHOLDERS.name));
-    personalDetails.append(this.createInput("number", PLACEHOLDERS.number));
-    personalDetails.append(this.createInput("address", PLACEHOLDERS.address));
-    personalDetails.append(this.createInput("email", PLACEHOLDERS.email));
+    personalDetails.append(
+      this.createInput(
+        "name",
+        PERSONAL_DETAILS.name.placeholder,
+        PERSONAL_DETAILS.name.type
+      )
+    );
+    personalDetails.append(
+      this.createInput(
+        "number",
+        PERSONAL_DETAILS.number.placeholder,
+        PERSONAL_DETAILS.number.type
+      )
+    );
+    personalDetails.append(
+      this.createInput(
+        "address",
+        PERSONAL_DETAILS.address.placeholder,
+        PERSONAL_DETAILS.address.type
+      )
+    );
+    personalDetails.append(
+      this.createInput(
+        "email",
+        PERSONAL_DETAILS.email.placeholder,
+        PERSONAL_DETAILS.email.type
+      )
+    );
     return personalDetails;
+  }
+
+  validateName(input: HTMLInputElement) {
+    let isValid = false;
+    const regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
+    if (regName.test(input.value) && input.value.length >= 7) isValid = true;
+    return this.toggleErrorMessage(input, "name", isValid);
   }
 }
