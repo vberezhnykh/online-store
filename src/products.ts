@@ -1,4 +1,6 @@
-const PRODUCTS = [
+import { IProductInfo } from "./assets/misc/types";
+
+const PRODUCTS: Array<IProductInfo> = [
   {
     id: 1,
     title: "iPhone 9",
@@ -97,7 +99,7 @@ const PRODUCTS = [
     discountPercentage: 11.02,
     rating: 4.57,
     stock: 83,
-    brand: "APPle",
+    brand: "Apple",
     category: "laptops",
     thumbnail: "https://i.dummyjson.com/data/products/6/thumbnail.png",
     images: [

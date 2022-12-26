@@ -1,4 +1,4 @@
-import AppView from '../view/appView';
+import AppView from "../view/appView";
 
 class App {
   private view: AppView;
@@ -10,7 +10,6 @@ class App {
   start() {
     this.view.drawPage();
   }
-  
 }
 
 export default App;
