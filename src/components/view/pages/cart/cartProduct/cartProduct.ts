@@ -19,7 +19,7 @@ class CartProduct {
 
   createPageControl() {
     const page = <HTMLDivElement>createCustomElement({selector : 'div', class : 'control__page'});
-    const pageText = <HTMLDivElement>createCustomElement({selector : 'span', class : 'page__text'});
+    const pageText = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'page__text'});
     const pageAmount = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'page__amount'});
     const pageBtnPrev = <HTMLButtonElement>createCustomElement({selector : 'button', class : 'page__button prev'});
     const pageBtnNext = <HTMLButtonElement>createCustomElement({selector : 'button', class : 'page__button next'});
@@ -61,8 +61,30 @@ class CartProduct {
     return other;
   }
 
+  createQuantity(data: Pick<types.IProductInfo, 'stock' | 'price'>) {
+    const quantity = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__info-quantity'});
+    const stock = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'item__stock'});
+    const price = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'item__price'});
+    stock.textContent = `Stock: ${data.stock}`;
+    price.textContent = `$${data.price}`;
+    const amount = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__amount'});
+    const itemCount = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'item__count'});
+    const amountPlus = <HTMLButtonElement>createCustomElement({selector : 'button', class : 'item__button plus'});
+    const amountMinus = <HTMLButtonElement>createCustomElement({selector : 'button', class : 'item__button minus'});
+    amount.appendChild(amountPlus);
+    amount.appendChild(itemCount);
+    amount.appendChild(amountMinus);
+    amountPlus.textContent = '+';
+    amountMinus.textContent = '-';
+    itemCount.textContent = `${types.CartDefaultTitle.amount}`;
+    quantity.appendChild(stock);
+    quantity.appendChild(amount);
+    quantity.appendChild(price);
+    return quantity;
+  }
+
   createDetails(data: Omit<types.IProductInfo, 'images'>) {
-    const details = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__details'});
+    const details = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__info-details'});
     const title = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__title'});
     const titleText = <HTMLHeadingElement>createCustomElement({selector : 'h3', class : 'title__text'});
     titleText.textContent = data.title;
@@ -77,11 +99,13 @@ class CartProduct {
 
   createInfo(data: Omit<types.IProductInfo, 'images'>) {
     const info = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__info'});
-    const image = <HTMLImageElement>createCustomElement({selector : 'img', class : 'item__image', options : {src : data.thumbnail, alt : `ItemImage`}});
+    const image = <HTMLImageElement>createCustomElement({selector : 'img', class : 'item__info-image', options : {src : data.thumbnail, alt : `ItemImage`}});
     info.appendChild(image);
     info.appendChild(this.createDetails(data));
     return info;
   }
+
+
 
   createProduct(data: Omit<types.IProductInfo, 'images'>, index: number) {
     const products = <HTMLDivElement>createCustomElement({selector : 'div', class : 'cart__items'});
@@ -90,13 +114,19 @@ class CartProduct {
     itemNumber.textContent = `${index}`;
     item.appendChild(itemNumber);
     item.appendChild(this.createInfo(data));
+    item.appendChild(this.createQuantity(data));
     products.appendChild(item);
     return products;
   }
+  createCartProducts(data: Omit<types.IProductInfo, 'images'>) {
+    const cartProducts = <HTMLDivElement>createCustomElement({selector : 'div', class : 'cart__products'});
+    cartProducts.appendChild(this.createHeading());
+    cartProducts.appendChild(this.createProduct(data, 1));
+    return cartProducts;
+  }
 
   draw() {
-    (document.querySelector('.cart__page') as HTMLDivElement).appendChild(this.createHeading());
-    (document.querySelector('.cart__page') as HTMLDivElement).appendChild(this.createProduct(Products[0], 1));
+    (document.querySelector('.cart__page') as HTMLDivElement).appendChild(this.createCartProducts(Products[0]));
   }
 }
 

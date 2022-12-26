@@ -1,12 +1,11 @@
 import Products from "./products/products";
-import './mainPage.scss';
+import "./mainPage.scss";
 
 class MainPage {
-
   products: Products;
 
   constructor() {
-    this.products= new Products();
+    this.products = new Products();
   }
 
   draw() {
