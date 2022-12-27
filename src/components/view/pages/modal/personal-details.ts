@@ -29,6 +29,8 @@ export class PersonalDetails {
     input.placeholder = placeholder;
     input.type = type;
     if (className === "name") input.onkeyup = () => this.validateName(input);
+    if (className === "number")
+      input.onkeyup = () => this.validatePhoneNumber(input);
     const error = createCustomElement({
       selector: "div",
       class: `${className}__error`,
@@ -104,5 +106,16 @@ export class PersonalDetails {
     const regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
     if (regName.test(input.value) && input.value.length >= 7) isValid = true;
     return this.toggleErrorMessage(input, "name", isValid);
+  }
+
+  validatePhoneNumber(input: HTMLInputElement) {
+    let isValid = false;
+    if (input.value.length >= 1 && input.value[0] !== "+")
+      input.value = `+${input.value}`;
+
+    const regName = /^[+]+[0-9]$/;
+    console.log(regName.test(input.value));
+    if (regName.test(input.value) && input.value.length >= 9) isValid = true;
+    return this.toggleErrorMessage(input, "number", isValid);
   }
 }

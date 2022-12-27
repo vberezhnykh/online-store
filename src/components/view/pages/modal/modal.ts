@@ -9,6 +9,15 @@ class Modal {
     this._personalDetails = new PersonalDetails();
     this._cardDetails = new CardDetails();
   }
+  createConfirmButton() {
+    const button = <HTMLButtonElement>createCustomElement({
+      selector: "button",
+      class: "modal__confirm-button",
+    });
+    button.innerHTML = "CONFIRM";
+    button.disabled = true;
+    return button;
+  }
   draw() {
     const overlay = createCustomElement({
       selector: "div",
@@ -18,6 +27,7 @@ class Modal {
     const modal = createCustomElement({ selector: "div", class: "modal" });
     modal.append(this._personalDetails.createPersonalDetails());
     modal.append(this._cardDetails.createCardDetails());
+    modal.append(this.createConfirmButton());
     overlay.append(modal);
     overlay.onclick = (event) => this.closeModal(event);
   }
