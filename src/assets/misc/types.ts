@@ -58,7 +58,9 @@ export enum CartText {
   titlePageAmount = 'Page: ',
   summary = 'Summary',
   summaryProduct = 'Products: ',
-  summaryTotal = 'Total: '
+  summaryTotal = 'Total: ',
+  summaryPromoTest = 'Promo for test: ',
+  promoTestCodes = `'RS', 'EPM'`
 }
 
 export enum CartDefaultTitle{

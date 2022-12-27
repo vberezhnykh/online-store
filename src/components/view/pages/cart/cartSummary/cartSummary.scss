@@ -1,0 +1,23 @@
+.cart__page .cart__summary {
+  width: 29%;
+}
+
+.summary__heading {
+  text-align: center;
+  background-color: #181a1c;
+  padding: 0.3rem;
+}
+
+.summary__content,
+.summary__promo {
+  display: flex;
+  flex-flow: nowrap column;
+  text-align: center;
+}
+.summary__content > * {
+  width: 90%;
+  font-size: 170%;
+  color: wheat;
+  text-align: center;
+  margin: 4%
+}

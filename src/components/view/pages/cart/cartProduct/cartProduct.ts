@@ -42,8 +42,8 @@ class CartProduct {
   }
 
   createHeading() {
-    const title = <HTMLDivElement>createCustomElement({selector : 'div', class : 'product__title'});
-    const heading = <HTMLHeadingElement>createCustomElement({selector : 'h2', class : 'product__heading'});
+    const title = <HTMLDivElement>createCustomElement({selector : 'div', class : 'product__title title'});
+    const heading = <HTMLHeadingElement>createCustomElement({selector : 'h2', class : 'product__heading heading'});
     heading.textContent = types.CartText.title;
     title.appendChild(heading);
     title.appendChild(this.createControl());
@@ -119,7 +119,7 @@ class CartProduct {
     return products;
   }
   createCartProducts(data: Omit<types.IProductInfo, 'images'>) {
-    const cartProducts = <HTMLDivElement>createCustomElement({selector : 'div', class : 'cart__products'});
+    const cartProducts = <HTMLDivElement>createCustomElement({selector : 'div', class : 'cart__products cart-col'});
     cartProducts.appendChild(this.createHeading());
     cartProducts.appendChild(this.createProduct(data, 1));
     return cartProducts;
