@@ -27,7 +27,11 @@ class Modal {
     const modal = createCustomElement({ selector: "div", class: "modal" });
     modal.append(this._personalDetails.createPersonalDetails());
     modal.append(this._cardDetails.createCardDetails());
-    modal.append(this.createConfirmButton());
+    const confirmButton = this.createConfirmButton();
+    modal.append(confirmButton);
+    modal.addEventListener("keyup", () =>
+      this._personalDetails.validatePersonalDetails(confirmButton)
+    );
     overlay.append(modal);
     overlay.onclick = (event) => this.closeModal(event);
   }

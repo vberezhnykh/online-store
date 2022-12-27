@@ -2,6 +2,11 @@ import { createCustomElement } from "../../../../assets/misc/func";
 import { PersonalDetailsInputs } from "../../../../assets/misc/types";
 
 export class PersonalDetails {
+  _nameValidation = false;
+  _phoneNumberValidation = false;
+  _addressValidation = false;
+  _emailValidation = false;
+  _isValid = false;
   toggleErrorMessage(
     input: HTMLInputElement,
     className: string,
@@ -105,33 +110,58 @@ export class PersonalDetails {
   }
 
   validateName(input: HTMLInputElement) {
-    let isValid = false;
+    this._nameValidation = false;
     const regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
-    if (regName.test(input.value) && input.value.length >= 7) isValid = true;
-    return this.toggleErrorMessage(input, "name", isValid);
+    if (regName.test(input.value) && input.value.length >= 7)
+      this._nameValidation = true;
+    this.validatePersonalDetails();
+    return this.toggleErrorMessage(input, "name", this._nameValidation);
   }
 
   validatePhoneNumber(input: HTMLInputElement) {
-    let isValid = false;
+    this._phoneNumberValidation = false;
     if (input.value.length >= 1 && input.value[0] !== "+")
       input.value = `+${input.value}`;
     const regName = /^[+][0-9]*$/;
-    if (regName.test(input.value) && input.value.length >= 9) isValid = true;
-    return this.toggleErrorMessage(input, "number", isValid);
+    if (regName.test(input.value) && input.value.length >= 9)
+      this._phoneNumberValidation = true;
+    this.validatePersonalDetails();
+    return this.toggleErrorMessage(
+      input,
+      "number",
+      this._phoneNumberValidation
+    );
   }
 
   validateAddress(input: HTMLInputElement) {
-    let isValid = false;
+    this._addressValidation = false;
     const inputValue = input.value
       .trim()
       .split(" ")
       .filter((word) => word !== "" && word.length >= 5);
-    if (inputValue.length >= 3) isValid = true;
-    return this.toggleErrorMessage(input, "address", isValid);
+    if (inputValue.length >= 3) this._addressValidation = true;
+    this.validatePersonalDetails();
+    return this.toggleErrorMessage(input, "address", this._addressValidation);
   }
   validateEmail(input: HTMLInputElement) {
-    let isValid = false;
-    if (input.validity.valid) isValid = true;
-    return this.toggleErrorMessage(input, "email", isValid);
+    this._emailValidation = false;
+    if (input.value.length > 0 && input.validity.valid)
+      this._emailValidation = true;
+    this.validatePersonalDetails();
+    return this.toggleErrorMessage(input, "email", this._emailValidation);
+  }
+  validatePersonalDetails(button?: HTMLButtonElement) {
+    this._isValid = false;
+    if (
+      this._nameValidation &&
+      this._phoneNumberValidation &&
+      this._addressValidation &&
+      this._emailValidation
+    )
+      this._isValid = true;
+    if (button) {
+      if (this._isValid) button.disabled = false;
+      else button.disabled = true;
+    }
   }
 }
