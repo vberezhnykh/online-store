@@ -101,6 +101,13 @@
   font-size: 90%;
   color: #000;
   font-weight: 700;
+  width: 40%;
+}
+
+.card-number__input::-webkit-outer-spin-button,
+.card-number__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
 .other-card-data {
@@ -152,6 +159,26 @@
     font-size: 0.7rem;
     // padding: 0;
   }
+}
+
+.card-number__error,
+.valid__error,
+.cvv__error {
+  margin-top: 1%;
+  // width: 0%;
+  color: red;
+  font-weight: bold;
+  font-size: 0;
+  text-align: center;
+  transition: 0.2s;
+  visibility: hidden;
+}
+
+.card-number__error--active,
+.valid__error--active,
+.cvv__error--active {
+  visibility: visible;
+  font-size: 1rem;
 }
 
 .modal__confirm-button {
