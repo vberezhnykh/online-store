@@ -33,6 +33,7 @@ export class PersonalDetails {
       input.onkeyup = () => this.validatePhoneNumber(input);
     if (className === "address")
       input.onkeyup = () => this.validateAddress(input);
+    if (className === "email") input.onkeyup = () => this.validateEmail(input);
     const error = createCustomElement({
       selector: "div",
       class: `${className}__error`,
@@ -118,6 +119,7 @@ export class PersonalDetails {
     if (regName.test(input.value) && input.value.length >= 9) isValid = true;
     return this.toggleErrorMessage(input, "number", isValid);
   }
+
   validateAddress(input: HTMLInputElement) {
     let isValid = false;
     const inputValue = input.value
@@ -126,5 +128,10 @@ export class PersonalDetails {
       .filter((word) => word !== "" && word.length >= 5);
     if (inputValue.length >= 3) isValid = true;
     return this.toggleErrorMessage(input, "address", isValid);
+  }
+  validateEmail(input: HTMLInputElement) {
+    let isValid = false;
+    if (input.validity.valid) isValid = true;
+    return this.toggleErrorMessage(input, "email", isValid);
   }
 }
