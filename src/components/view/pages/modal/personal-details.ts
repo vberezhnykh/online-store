@@ -112,9 +112,7 @@ export class PersonalDetails {
     let isValid = false;
     if (input.value.length >= 1 && input.value[0] !== "+")
       input.value = `+${input.value}`;
-
-    const regName = /^[+]+[0-9]$/;
-    console.log(regName.test(input.value));
+    const regName = /^[+][0-9]*$/;
     if (regName.test(input.value) && input.value.length >= 9) isValid = true;
     return this.toggleErrorMessage(input, "number", isValid);
   }
