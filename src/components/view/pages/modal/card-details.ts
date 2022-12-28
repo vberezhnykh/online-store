@@ -1,5 +1,8 @@
 import { createCustomElement } from "../../../../assets/misc/func";
-import creditCardImgSrc from "../../../../assets/images/modal/credit-card.png";
+import defaultCreditCardImgSrc from "../../../../assets/images/modal/default.png";
+import visaImgSrc from "../../../../assets/images/modal/visa.png";
+import masterCardImgSrc from "../../../../assets/images/modal/mastercard.png";
+import mirImgSrc from "../../../../assets/images/modal/mir.png";
 
 export class CardDetails {
   _cardNumberValidation = false;
@@ -25,13 +28,13 @@ export class CardDetails {
       class: "card-number",
     });
     const image = new Image();
-    image.src = creditCardImgSrc;
+    image.src = defaultCreditCardImgSrc;
     cardNumberContainer.append(image);
     const cardNumberInput = <HTMLInputElement>(
       createCustomElement({ selector: "input", class: "card-number__input" })
     );
     cardNumberInput.placeholder = "Card number";
-    cardNumberInput.type = "number";
+    // cardNumberInput.type = "number";
     cardNumberInput.onkeyup = () => this.validateCardNumber(cardNumberInput);
     cardNumberContainer.append(cardNumberInput);
     cardData.append(cardNumberContainer);
@@ -86,10 +89,71 @@ export class CardDetails {
   }
 
   validateCardNumber(input: HTMLInputElement) {
+    const ISSUER_IDENTIFICATION_NUMBERS = {
+      visa: {
+        from: 4,
+        imgSrc: visaImgSrc,
+        length: 16,
+      },
+      masterCard: {
+        from: 2221,
+        to: 2720,
+        imgSrc: masterCardImgSrc,
+        length: 16,
+      },
+      mir: {
+        from: 2200,
+        to: 2204,
+        imgSrc: mirImgSrc,
+        length: 16,
+      },
+    };
+    const regName = /[0-9]/;
+    const cardImg = input.parentElement?.firstElementChild;
+    const numberOfExtraWhiteSpaces = 3;
+    let minLength = 16;
     this._cardNumberValidation = false;
-    if (input.value.length > 16) input.value = input.value.slice(0, 16);
-    if (input.value.length === 16) this._cardNumberValidation = true;
-    console.log(this._cardNumberValidation);
+    if (cardImg instanceof HTMLImageElement) {
+      if (
+        input.value[0] === ISSUER_IDENTIFICATION_NUMBERS.visa.from.toString()
+      ) {
+        cardImg.src = ISSUER_IDENTIFICATION_NUMBERS.visa.imgSrc;
+        minLength = ISSUER_IDENTIFICATION_NUMBERS.visa.length;
+      } else if (
+        Number(input.value.slice(0, 4)) >=
+          ISSUER_IDENTIFICATION_NUMBERS.masterCard.from &&
+        Number(input.value.slice(0, 4)) <=
+          ISSUER_IDENTIFICATION_NUMBERS.masterCard.to
+      ) {
+        cardImg.src = ISSUER_IDENTIFICATION_NUMBERS.masterCard.imgSrc;
+        minLength = ISSUER_IDENTIFICATION_NUMBERS.masterCard.length;
+      } else if (
+        Number(input.value.slice(0, 4)) >=
+          ISSUER_IDENTIFICATION_NUMBERS.mir.from &&
+        Number(input.value.slice(0, 4)) <= ISSUER_IDENTIFICATION_NUMBERS.mir.to
+      ) {
+        cardImg.src = ISSUER_IDENTIFICATION_NUMBERS.mir.imgSrc;
+        minLength = ISSUER_IDENTIFICATION_NUMBERS.mir.length;
+      } else {
+        cardImg.src = defaultCreditCardImgSrc;
+        minLength = 16;
+      }
+    }
+
+    if (!regName.test(input.value[input.value.length - 1]))
+      input.value = input.value.slice(0, input.value.length - 1);
+    if (
+      input.value.length === 5 ||
+      input.value.length === 10 ||
+      input.value.length === 15
+    )
+      input.value = `${input.value.slice(0, input.value.length - 1)} ${
+        input.value[input.value.length - 1]
+      }`;
+    if (input.value.length > minLength + numberOfExtraWhiteSpaces)
+      input.value = input.value.slice(0, minLength + numberOfExtraWhiteSpaces);
+    if (input.value.length === minLength + numberOfExtraWhiteSpaces)
+      this._cardNumberValidation = true;
     return this.toggleErrorMessage("card-number", this._cardNumberValidation);
   }
 }
