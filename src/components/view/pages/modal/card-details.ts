@@ -7,6 +7,7 @@ import mirImgSrc from "../../../../assets/images/modal/mir.png";
 export class CardDetails {
   _cardNumberValidation = false;
   _expireDateValidation = false;
+  _cvvValidation = false;
   createCardDetails() {
     const container = createCustomElement({
       selector: "div",
@@ -63,6 +64,7 @@ export class CardDetails {
       createCustomElement({ selector: "input", class: "cvv__input" })
     );
     cvvInput.placeholder = "Code";
+    cvvInput.onkeyup = () => this.validateCvv(cvvInput);
     cvvContainer.append(cvvInput);
     otherCardData.append(cvvContainer);
     cardData.append(otherCardData);
@@ -109,7 +111,7 @@ export class CardDetails {
         length: 16,
       },
     };
-    const regName = /[0-9]/;
+    const regEx = /[0-9]/;
     const cardImg = input.parentElement?.firstElementChild;
     const numberOfExtraWhiteSpaces = 3;
     let minLength = 16;
@@ -141,7 +143,7 @@ export class CardDetails {
       }
     }
 
-    if (!regName.test(input.value[input.value.length - 1]))
+    if (!regEx.test(input.value[input.value.length - 1]))
       input.value = input.value.slice(0, input.value.length - 1);
     if (
       input.value.length === 5 ||
@@ -161,7 +163,7 @@ export class CardDetails {
   validateExpireDate(input: HTMLInputElement, event: KeyboardEvent) {
     this._expireDateValidation = false;
     if (input.value.length > 5) input.value = input.value.slice(0, 5);
-    const regName = /[0-9]/;
+    const regEx = /[0-9]/;
     const expireMonth = input.value.slice(0, 2);
     const expireYear = input.value.slice(3);
     const MONTHS = [
@@ -178,7 +180,7 @@ export class CardDetails {
       "11",
       "12",
     ];
-    if (!regName.test(input.value[input.value.length - 1]))
+    if (!regEx.test(input.value[input.value.length - 1]))
       input.value = input.value.slice(0, input.value.length - 1);
     if (input.value.length === 2 && event.key !== "Backspace") {
       input.value = `${input.value}/`;
@@ -193,5 +195,15 @@ export class CardDetails {
       else this._expireDateValidation = true;
     }
     return this.toggleErrorMessage("valid", this._expireDateValidation);
+  }
+
+  validateCvv(input: HTMLInputElement) {
+    this._cvvValidation = false;
+    const regEx = /[0-9]/;
+    if (!regEx.test(input.value[input.value.length - 1]))
+      input.value = input.value.slice(0, input.value.length - 1);
+    if (input.value.length > 3) input.value = input.value.slice(0, 3);
+    this._cvvValidation = true;
+    return this.toggleErrorMessage("cvv", this._cvvValidation);
   }
 }
