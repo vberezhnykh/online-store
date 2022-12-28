@@ -6,6 +6,7 @@ import mirImgSrc from "../../../../assets/images/modal/mir.png";
 
 export class CardDetails {
   _cardNumberValidation = false;
+  _expireDateValidation = false;
   createCardDetails() {
     const container = createCustomElement({
       selector: "div",
@@ -34,7 +35,6 @@ export class CardDetails {
       createCustomElement({ selector: "input", class: "card-number__input" })
     );
     cardNumberInput.placeholder = "Card number";
-    // cardNumberInput.type = "number";
     cardNumberInput.onkeyup = () => this.validateCardNumber(cardNumberInput);
     cardNumberContainer.append(cardNumberInput);
     cardData.append(cardNumberContainer);
@@ -51,6 +51,7 @@ export class CardDetails {
       createCustomElement({ selector: "input", class: "valid__input" })
     );
     validInput.placeholder = "Valid Thru";
+    validInput.onkeyup = (event) => this.validateExpireDate(validInput, event);
     validContainer.append(validInput);
     otherCardData.append(validContainer);
 
@@ -155,5 +156,42 @@ export class CardDetails {
     if (input.value.length === minLength + numberOfExtraWhiteSpaces)
       this._cardNumberValidation = true;
     return this.toggleErrorMessage("card-number", this._cardNumberValidation);
+  }
+
+  validateExpireDate(input: HTMLInputElement, event: KeyboardEvent) {
+    this._expireDateValidation = false;
+    if (input.value.length > 5) input.value = input.value.slice(0, 5);
+    const regName = /[0-9]/;
+    const expireMonth = input.value.slice(0, 2);
+    const expireYear = input.value.slice(3);
+    const MONTHS = [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+    ];
+    if (!regName.test(input.value[input.value.length - 1]))
+      input.value = input.value.slice(0, input.value.length - 1);
+    if (input.value.length === 2 && event.key !== "Backspace") {
+      input.value = `${input.value}/`;
+    }
+    if (input.value.length >= 2 && !MONTHS.includes(expireMonth)) return;
+    if (input.value.length === 5) {
+      const date: Date = new Date();
+      const currentMonth = (date.getMonth() + 1).toString();
+      const currentYear = date.getFullYear().toString().slice(2);
+      if (expireYear < currentYear) return;
+      if (expireYear === currentYear && expireMonth < currentMonth) return;
+      else this._expireDateValidation = true;
+    }
+    return this.toggleErrorMessage("valid", this._expireDateValidation);
   }
 }
