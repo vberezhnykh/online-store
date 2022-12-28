@@ -150,7 +150,7 @@ export class PersonalDetails {
     this.validatePersonalDetails();
     return this.toggleErrorMessage(input, "email", this._emailValidation);
   }
-  validatePersonalDetails(button?: HTMLButtonElement) {
+  validatePersonalDetails() {
     this._isValid = false;
     if (
       this._nameValidation &&
@@ -159,9 +159,5 @@ export class PersonalDetails {
       this._emailValidation
     )
       this._isValid = true;
-    if (button) {
-      if (this._isValid) button.disabled = false;
-      else button.disabled = true;
-    }
   }
 }

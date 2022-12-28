@@ -1,5 +1,8 @@
 .modal-overlay {
   position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
@@ -7,11 +10,8 @@
 }
 
 .modal {
-  position: absolute;
-  top: calc(50% - 300px);
-  left: calc(50% - 300px);
   width: 600px;
-  height: 600px;
+  min-height: 600px;
   border: 1px solid orange;
   border-radius: 0.5rem;
   background: #181a1c;
@@ -19,6 +19,11 @@
   flex-direction: column;
   justify-content: space-evenly;
   padding: 1%;
+}
+
+.modal--ordered {
+  text-align: center;
+  min-height: fit-content;
 }
 
 .personal-details__heading {
@@ -188,11 +193,4 @@
   padding: 1%;
   cursor: pointer;
   margin: 1% auto;
-
-  &:disabled {
-    background-color: #3f101044;
-    color: grey;
-    cursor:not-allowed;
-  }
-
 }

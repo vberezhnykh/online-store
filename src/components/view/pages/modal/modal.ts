@@ -15,8 +15,24 @@ class Modal {
       class: "modal__confirm-button",
     });
     button.innerHTML = "CONFIRM";
-    button.disabled = true;
+    button.addEventListener("click", () => this.checkValidity());
     return button;
+  }
+
+  checkValidity() {
+    this._personalDetails.validatePersonalDetails();
+    this._cardDetails.validateCardDetails();
+    if (this._personalDetails._isValid && this._cardDetails._isValid) {
+      if (document.querySelector(".modal")) {
+        (document.querySelector(".modal") as HTMLDivElement).innerHTML =
+          "Thanks for your order. Soon you will be redirected to main page...";
+        document.querySelector(".modal")?.classList.add("modal--ordered");
+        const randomSec = Math.floor(Math.random() * (5000 - 3000 + 1) + 3000);
+        setTimeout(() => {
+          document.querySelector(".modal-overlay")?.remove();
+        }, randomSec);
+      }
+    }
   }
   draw() {
     const overlay = createCustomElement({
@@ -29,9 +45,10 @@ class Modal {
     modal.append(this._cardDetails.createCardDetails());
     const confirmButton = this.createConfirmButton();
     modal.append(confirmButton);
-    modal.addEventListener("keyup", () =>
-      this._personalDetails.validatePersonalDetails(confirmButton)
-    );
+    /* modal.addEventListener("keyup", () => {
+      this._personalDetails.validatePersonalDetails();
+      this._cardDetails.validateCardDetails();
+    }); */
     overlay.append(modal);
     overlay.onclick = (event) => this.closeModal(event);
   }

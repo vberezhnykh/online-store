@@ -8,6 +8,7 @@ export class CardDetails {
   _cardNumberValidation = false;
   _expireDateValidation = false;
   _cvvValidation = false;
+  _isValid = false;
   createCardDetails() {
     const container = createCustomElement({
       selector: "div",
@@ -205,5 +206,15 @@ export class CardDetails {
     if (input.value.length > 3) input.value = input.value.slice(0, 3);
     this._cvvValidation = true;
     return this.toggleErrorMessage("cvv", this._cvvValidation);
+  }
+
+  validateCardDetails() {
+    this._isValid = false;
+    if (
+      this._cardNumberValidation &&
+      this._expireDateValidation &&
+      this._cvvValidation
+    )
+      this._isValid = true;
   }
 }
