@@ -93,13 +93,57 @@ interface InputAttributes {
   type: string;
   placeholder: string;
   min?: string;
-  /*  validationFunc?: ValidationFunc; */
 }
 
 export interface PersonalDetailsInputs {
   name: InputAttributes;
   number: InputAttributes;
   address: InputAttributes;
-  email: InputAttributes;,
+  email: InputAttributes;
 }
 
+export interface IPersonalDetails {
+  _isValidName: boolean;
+  _isValidPhoneNumber: boolean;
+  _isValidAddress: boolean;
+  _isValidEmail: boolean;
+  _isValid: boolean;
+  toggleErrorMessage(
+    input: HTMLInputElement,
+    className: string,
+    isValid: boolean
+  ): void;
+  createInput(
+    className: string,
+    placeholder: string,
+    type: string
+  ): HTMLElement;
+  createPersonalDetails(): HTMLElement;
+  validateName(input: HTMLInputElement): void;
+  validatePhoneNumber(input: HTMLInputElement): void;
+  validateAddress(input: HTMLInputElement): void;
+  validateEmail(input: HTMLInputElement): void;
+  validatePersonalDetails(): void;
+}
+
+export interface ICardDetails {
+  _isValidCardNumber: boolean;
+  _isValidDate: boolean;
+  _isValidCvv: boolean;
+  _isValid: boolean;
+  createCardDetails(): HTMLElement;
+  toggleErrorMessage(className: string, isValid: boolean): void;
+  validateCardNumber(input: HTMLInputElement): void;
+  validateExpireDate(input: HTMLInputElement, event: KeyboardEvent): void;
+  validateCvv(input: HTMLInputElement): void;
+  validateCardDetails(): void;
+}
+
+export interface IModal {
+  _personalDetails: IPersonalDetails;
+  _cardDetails: ICardDetails;
+  createConfirmButton(): HTMLButtonElement;
+  checkValidity(): void;
+  draw(): void;
+  closeModal(event: Event): void;
+}

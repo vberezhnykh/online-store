@@ -1,11 +1,14 @@
 import { createCustomElement } from "../../../../assets/misc/func";
-import { PersonalDetailsInputs } from "../../../../assets/misc/types";
+import {
+  PersonalDetailsInputs,
+  IPersonalDetails,
+} from "../../../../assets/misc/types";
 
-export class PersonalDetails {
-  _nameValidation = false;
-  _phoneNumberValidation = false;
-  _addressValidation = false;
-  _emailValidation = false;
+export class PersonalDetails implements IPersonalDetails {
+  _isValidName = false;
+  _isValidPhoneNumber = false;
+  _isValidAddress = false;
+  _isValidEmail = false;
   _isValid = false;
   toggleErrorMessage(
     input: HTMLInputElement,
@@ -110,53 +113,49 @@ export class PersonalDetails {
   }
 
   validateName(input: HTMLInputElement) {
-    this._nameValidation = false;
+    this._isValidName = false;
     const regName = /^[a-zA-Z]+ [a-zA-Z]+$/;
     if (regName.test(input.value) && input.value.length >= 7)
-      this._nameValidation = true;
+      this._isValidName = true;
     this.validatePersonalDetails();
-    return this.toggleErrorMessage(input, "name", this._nameValidation);
+    return this.toggleErrorMessage(input, "name", this._isValidName);
   }
 
   validatePhoneNumber(input: HTMLInputElement) {
-    this._phoneNumberValidation = false;
+    this._isValidPhoneNumber = false;
     if (input.value.length >= 1 && input.value[0] !== "+")
       input.value = `+${input.value}`;
     const regName = /^[+][0-9]*$/;
     if (regName.test(input.value) && input.value.length >= 9)
-      this._phoneNumberValidation = true;
+      this._isValidPhoneNumber = true;
     this.validatePersonalDetails();
-    return this.toggleErrorMessage(
-      input,
-      "number",
-      this._phoneNumberValidation
-    );
+    return this.toggleErrorMessage(input, "number", this._isValidPhoneNumber);
   }
 
   validateAddress(input: HTMLInputElement) {
-    this._addressValidation = false;
+    this._isValidAddress = false;
     const inputValue = input.value
       .trim()
       .split(" ")
       .filter((word) => word !== "" && word.length >= 5);
-    if (inputValue.length >= 3) this._addressValidation = true;
+    if (inputValue.length >= 3) this._isValidAddress = true;
     this.validatePersonalDetails();
-    return this.toggleErrorMessage(input, "address", this._addressValidation);
+    return this.toggleErrorMessage(input, "address", this._isValidAddress);
   }
   validateEmail(input: HTMLInputElement) {
-    this._emailValidation = false;
+    this._isValidEmail = false;
     if (input.value.length > 0 && input.validity.valid)
-      this._emailValidation = true;
+      this._isValidEmail = true;
     this.validatePersonalDetails();
-    return this.toggleErrorMessage(input, "email", this._emailValidation);
+    return this.toggleErrorMessage(input, "email", this._isValidEmail);
   }
   validatePersonalDetails() {
     this._isValid = false;
     if (
-      this._nameValidation &&
-      this._phoneNumberValidation &&
-      this._addressValidation &&
-      this._emailValidation
+      this._isValidName &&
+      this._isValidPhoneNumber &&
+      this._isValidAddress &&
+      this._isValidEmail
     )
       this._isValid = true;
   }

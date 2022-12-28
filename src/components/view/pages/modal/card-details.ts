@@ -3,11 +3,12 @@ import defaultCreditCardImgSrc from "../../../../assets/images/modal/default.png
 import visaImgSrc from "../../../../assets/images/modal/visa.png";
 import masterCardImgSrc from "../../../../assets/images/modal/mastercard.png";
 import mirImgSrc from "../../../../assets/images/modal/mir.png";
+import { ICardDetails } from "../../../../assets/misc/types";
 
-export class CardDetails {
-  _cardNumberValidation = false;
-  _expireDateValidation = false;
-  _cvvValidation = false;
+export class CardDetails implements ICardDetails {
+  _isValidCardNumber = false;
+  _isValidDate = false;
+  _isValidCvv = false;
   _isValid = false;
   createCardDetails() {
     const container = createCustomElement({
@@ -116,7 +117,7 @@ export class CardDetails {
     const cardImg = input.parentElement?.firstElementChild;
     const numberOfExtraWhiteSpaces = 3;
     let minLength = 16;
-    this._cardNumberValidation = false;
+    this._isValidCardNumber = false;
     if (cardImg instanceof HTMLImageElement) {
       if (
         input.value[0] === ISSUER_IDENTIFICATION_NUMBERS.visa.from.toString()
@@ -157,12 +158,12 @@ export class CardDetails {
     if (input.value.length > minLength + numberOfExtraWhiteSpaces)
       input.value = input.value.slice(0, minLength + numberOfExtraWhiteSpaces);
     if (input.value.length === minLength + numberOfExtraWhiteSpaces)
-      this._cardNumberValidation = true;
-    return this.toggleErrorMessage("card-number", this._cardNumberValidation);
+      this._isValidCardNumber = true;
+    return this.toggleErrorMessage("card-number", this._isValidCardNumber);
   }
 
   validateExpireDate(input: HTMLInputElement, event: KeyboardEvent) {
-    this._expireDateValidation = false;
+    this._isValidDate = false;
     if (input.value.length > 5) input.value = input.value.slice(0, 5);
     const regEx = /[0-9]/;
     const expireMonth = input.value.slice(0, 2);
@@ -193,28 +194,24 @@ export class CardDetails {
       const currentYear = date.getFullYear().toString().slice(2);
       if (expireYear < currentYear) return;
       if (expireYear === currentYear && expireMonth < currentMonth) return;
-      else this._expireDateValidation = true;
+      else this._isValidDate = true;
     }
-    return this.toggleErrorMessage("valid", this._expireDateValidation);
+    return this.toggleErrorMessage("valid", this._isValidDate);
   }
 
   validateCvv(input: HTMLInputElement) {
-    this._cvvValidation = false;
+    this._isValidCvv = false;
     const regEx = /[0-9]/;
     if (!regEx.test(input.value[input.value.length - 1]))
       input.value = input.value.slice(0, input.value.length - 1);
     if (input.value.length > 3) input.value = input.value.slice(0, 3);
-    this._cvvValidation = true;
-    return this.toggleErrorMessage("cvv", this._cvvValidation);
+    this._isValidCvv = true;
+    return this.toggleErrorMessage("cvv", this._isValidCvv);
   }
 
   validateCardDetails() {
     this._isValid = false;
-    if (
-      this._cardNumberValidation &&
-      this._expireDateValidation &&
-      this._cvvValidation
-    )
+    if (this._isValidCardNumber && this._isValidDate && this._isValidCvv)
       this._isValid = true;
   }
 }

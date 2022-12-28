@@ -1,8 +1,9 @@
 import { createCustomElement } from "../../../../assets/misc/func";
 import { PersonalDetails } from "./personal-details";
 import { CardDetails } from "./card-details";
+import { IModal } from "../../../../assets/misc/types";
 
-class Modal {
+class Modal implements IModal {
   _personalDetails: PersonalDetails;
   _cardDetails: CardDetails;
   constructor() {
@@ -34,6 +35,7 @@ class Modal {
       }
     }
   }
+
   draw() {
     const overlay = createCustomElement({
       selector: "div",
@@ -52,6 +54,7 @@ class Modal {
     overlay.append(modal);
     overlay.onclick = (event) => this.closeModal(event);
   }
+
   closeModal(event: Event) {
     if (
       event.target instanceof HTMLDivElement &&
