@@ -52,6 +52,35 @@ export interface ISortObj {
   amount: number;
 }
 
+export interface AppliedFilters {
+  category?: string[];
+  brand?: string[];
+  price?: {
+    min?: number;
+    max?: number;
+  };
+  stock?: {
+    min?: number;
+    max?: number;
+  };
+}
+
+export interface Options {
+  category: {
+    [key: string]: number;
+  };
+  brand: {
+    [key: string]: number;
+  };
+  price: {
+    min?: number;
+    max?: number;
+  };
+  stock: {
+    min?: number;
+    max?: number;
+  };
+}
 export enum DetailsNav {
   category,
   brand,
@@ -71,5 +100,6 @@ export interface PersonalDetailsInputs {
   name: InputAttributes;
   number: InputAttributes;
   address: InputAttributes;
-  email: InputAttributes;
+  email: InputAttributes;,
 }
+
