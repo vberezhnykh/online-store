@@ -55,7 +55,7 @@ class CartProduct {
     const rating = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'other__rating'});
     const discount = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'other__discount'});
     rating.textContent = `Rating: ${data.rating}`;
-    discount.textContent = `Rating: ${data.discountPercentage}`;
+    discount.textContent = `Discount: ${data.discountPercentage}%`;
     other.appendChild(rating);
     other.appendChild(discount);
     return other;
@@ -105,8 +105,6 @@ class CartProduct {
     return info;
   }
 
-
-
   createProduct(data: Omit<types.IProductInfo, 'images'>, index: number) {
     const products = <HTMLDivElement>createCustomElement({selector : 'div', class : 'cart__items'});
     const item = <HTMLDivElement>createCustomElement({selector : 'div', class : 'list__item'});
@@ -118,15 +116,18 @@ class CartProduct {
     products.appendChild(item);
     return products;
   }
-  createCartProducts(data: Omit<types.IProductInfo, 'images'>) {
+
+  createCartProducts(data: Omit<types.IProductInfo, 'images'>[]) {
     const cartProducts = <HTMLDivElement>createCustomElement({selector : 'div', class : 'cart__products cart-col'});
     cartProducts.appendChild(this.createHeading());
-    cartProducts.appendChild(this.createProduct(data, 1));
+    for(let i = 0; i < 4; i++) {
+      cartProducts.appendChild(this.createProduct(data[i], i + 1));
+    }
     return cartProducts;
   }
 
   draw() {
-    (document.querySelector('.cart__page') as HTMLDivElement).appendChild(this.createCartProducts(Products[0]));
+    (document.querySelector('.cart__page') as HTMLDivElement).appendChild(this.createCartProducts(Products));
   }
 }
 

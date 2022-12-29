@@ -32,10 +32,8 @@ class CartSummary {
     const totalAmountValue = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'total__value total-amount'});
     const totalPriceValue = <HTMLSpanElement>createCustomElement({selector : 'span', class : 'total__value total-price'});
     totalAmount.textContent = `${types.CartText.summaryProduct}`;
-    totalAmountValue.textContent = ` ${1}`;
     totalAmount.appendChild(totalAmountValue);
     totalPrice.textContent = `${types.CartText.summaryTotal}`;
-    totalPriceValue.textContent = ` $${data.price}`;
     totalPrice.appendChild(totalPriceValue);
     total.appendChild(totalAmount);
     total.appendChild(totalPrice);
