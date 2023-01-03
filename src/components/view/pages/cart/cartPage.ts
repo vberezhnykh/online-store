@@ -29,7 +29,7 @@ class CartPage {
 
   hideCartItems(page: number = 1) {
     const limit = Number((document.querySelector('.limit__amount') as HTMLInputElement).value);
-    const items = Array.from(document.querySelectorAll('.cart__items')).map((el, i) => {
+    Array.from(document.querySelectorAll('.cart__items')).forEach((el, i) => {
       (el as HTMLDivElement).style.display = (i >= limit * (page - 1) && i < limit * page) ? '' : 'none';
     });
   }
@@ -37,6 +37,12 @@ class CartPage {
   createFunctions() {
     const area: HTMLDivElement | null = document.querySelector('.cart__products');
     if (area) {
+      area.addEventListener('keyup',(event) => {
+        const target = event.target as HTMLElement;
+        if (target.className.includes('limit__amount')) {
+          this.hideCartItems();
+        }
+      });
       area.addEventListener('click',(event) => {
         const target = event.target as HTMLElement;
         if (target.className.includes('limit__amount')) {
@@ -67,6 +73,8 @@ class CartPage {
               (parent.querySelector('.item__price') as HTMLSpanElement).textContent = `$${amount * price}`;
             } else if (amount + step === 0) {
               parent.remove();
+              this.hideCartItems();
+              console.log(amount);
             }
             this.fillTotals();
           }

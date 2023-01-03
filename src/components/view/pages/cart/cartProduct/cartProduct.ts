@@ -10,7 +10,7 @@ class CartProduct {
     const limitText = <HTMLDivElement>createCustomElement({selector : 'span', class : 'limit__text'});
     const limitAmount= <HTMLInputElement>createCustomElement({selector : 'input', class : 'limit__amount'});
     limitText.textContent = types.CartText.titleItemLimit.toUpperCase();
-    limitAmount.type = 'text';
+    limitAmount.type = 'number';
     limitAmount.value = `${types.CartDefaultTitle.items}`;
     limit.appendChild(limitText);
     limit.appendChild(limitAmount);
