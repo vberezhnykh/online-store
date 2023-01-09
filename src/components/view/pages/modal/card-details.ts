@@ -182,19 +182,28 @@ export class CardDetails implements ICardDetails {
       "11",
       "12",
     ];
+    if (!MONTHS.includes(expireMonth)) {
+      this._isValidDate = false;
+      return;
+    }
     if (!regEx.test(input.value[input.value.length - 1]))
       input.value = input.value.slice(0, input.value.length - 1);
     if (input.value.length === 2 && event.key !== "Backspace") {
       input.value = `${input.value}/`;
     }
-    if (input.value.length >= 2 && !MONTHS.includes(expireMonth)) return;
     if (input.value.length === 5) {
       const date: Date = new Date();
       const currentMonth = (date.getMonth() + 1).toString();
       const currentYear = date.getFullYear().toString().slice(2);
       if (expireYear < currentYear) return;
-      if (expireYear === currentYear && expireMonth < currentMonth) return;
-      else this._isValidDate = true;
+      if (
+        expireYear === currentYear &&
+        expireMonth < currentMonth.padStart(2, "0")
+      )
+        return;
+      else {
+        this._isValidDate = true;
+      }
     }
     return this.toggleErrorMessage("valid", this._isValidDate);
   }
