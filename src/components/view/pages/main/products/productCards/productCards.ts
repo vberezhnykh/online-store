@@ -97,7 +97,8 @@ class ProductCard {
     );
     const cardItemTitle = <HTMLSpanElement>createCustomElement({
       selector: "span",
-      class: "item__category-value title",
+      /* class: "item__category-value title", */
+      class: "item__category-value",
     });
     cardItemTitle.textContent = data.title;
     cardHeading.appendChild(cardItemTitle);

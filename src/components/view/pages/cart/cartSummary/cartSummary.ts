@@ -45,10 +45,16 @@ class CartSummary {
       createCustomElement({ selector: "div", class: "summary__total" })
     );
     const totalAmount = <HTMLParagraphElement>(
-      createCustomElement({ selector: "p", class: "total__text" })
+      createCustomElement({
+        selector: "p",
+        class: "total__text total__text--cart",
+      })
     );
     const totalPrice = <HTMLParagraphElement>(
-      createCustomElement({ selector: "p", class: "total__text" })
+      createCustomElement({
+        selector: "p",
+        class: "total__text total__text--cart",
+      })
     );
     const totalAmountValue = <HTMLSpanElement>createCustomElement({
       selector: "span",

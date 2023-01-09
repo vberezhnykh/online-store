@@ -53,7 +53,7 @@
   display: flex;
   align-items: center;
   justify-content: space-around;
-  height: 5rem;
+  height: fit-content;
 }
 
 .item__number {
@@ -138,17 +138,12 @@
   font-size: 150%;
 }
 
-/* Влияет на стили в карточках */
-/* .item__button {
+.item__button--cart {
   width: 2rem;
   height: 2rem;
-  background-color: #181a1c;
   border-radius: 10rem;
   font-size: 150%;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: none;
-  cursor: pointer;
-  border: 1px solid orange;
-} */
+}

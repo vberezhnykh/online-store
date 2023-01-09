@@ -106,12 +106,14 @@ class CartProduct {
     const itemCount = <HTMLSpanElement>(
       createCustomElement({ selector: "span", class: "item__count" })
     );
-    const amountPlus = <HTMLButtonElement>(
-      createCustomElement({ selector: "button", class: "item__button plus" })
-    );
-    const amountMinus = <HTMLButtonElement>(
-      createCustomElement({ selector: "button", class: "item__button minus" })
-    );
+    const amountPlus = <HTMLButtonElement>createCustomElement({
+      selector: "button",
+      class: "item__button item__button--cart plus",
+    });
+    const amountMinus = <HTMLButtonElement>createCustomElement({
+      selector: "button",
+      class: "item__button item__button--cart minus",
+    });
     amount.appendChild(amountPlus);
     amount.appendChild(itemCount);
     amount.appendChild(amountMinus);
