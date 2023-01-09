@@ -1,0 +1,24 @@
+.cart__page {
+  width: 95%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.cart-col {
+  width: 69%;
+  border: 1px solid orange;
+  overflow: hidden;
+  border-radius: 0.5rem;
+  background-color: #1e1b1b80;
+  height: fit-content;
+}
+
+.title {
+  background-color: #181a1c;
+  padding: 0.3rem;
+  border-bottom: 1px solid orange;
+}
+
+.heading {
+  font-size: 130%;
+}
