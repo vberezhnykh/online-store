@@ -1,29 +1,43 @@
-import { createCustomElement } from '../../../../../assets/misc/func';
-import * as types from '../../../../../assets/misc/types';
-import Products from '../../../../../products';
-import './productDetails.scss';
+import { createCustomElement } from "../../../../../assets/misc/func";
+import * as types from "../../../../../assets/misc/types";
+import Products from "../../../../../products";
+import "./productDetails.scss";
 
 class ProductDetails {
   createTitle(title: string) {
-    const detailsTitle = <HTMLDivElement>createCustomElement({selector : 'div', class : 'details__title'});
-    const titleText = <HTMLHeadingElement>createCustomElement({selector : 'h1', class : 'title__text'});
+    const detailsTitle = <HTMLDivElement>(
+      createCustomElement({ selector: "div", class: "details__title" })
+    );
+    const titleText = <HTMLHeadingElement>(
+      createCustomElement({ selector: "h1", class: "title__text" })
+    );
     titleText.textContent = title;
     detailsTitle.appendChild(titleText);
     return detailsTitle;
   }
-  createPhotos(data: Pick<types.IProductInfo, 'images' | 'thumbnail'>) {
-    const productDataPhotos = <HTMLDivElement>createCustomElement({selector : 'div', class : 'product-data__photos'});
-    const productDataSlides = <HTMLDivElement>createCustomElement({selector : 'div', class : 'product-data__slides'});
+  createPhotos(data: Pick<types.IProductInfo, "images" | "thumbnail">) {
+    const productDataPhotos = <HTMLDivElement>(
+      createCustomElement({ selector: "div", class: "product-data__photos" })
+    );
+    const productDataSlides = <HTMLDivElement>(
+      createCustomElement({ selector: "div", class: "product-data__slides" })
+    );
     for (const imgSrc of data.images) {
-      const image = <HTMLImageElement>createCustomElement({selector : 'img', class : 'slides__item'});
+      const image = <HTMLImageElement>(
+        createCustomElement({ selector: "img", class: "slides__item" })
+      );
       image.src = imgSrc;
-      image.alt = 'SlideImage';
+      image.alt = "SlideImage";
       productDataSlides.appendChild(image);
     }
-    const productDataThumbnail = <HTMLDivElement>createCustomElement({selector : 'div', class : 'photos__thumbnail'});
-    const photo = <HTMLImageElement>createCustomElement({selector : 'img', class : 'thumbnail__item'});
+    const productDataThumbnail = <HTMLDivElement>(
+      createCustomElement({ selector: "div", class: "photos__thumbnail" })
+    );
+    const photo = <HTMLImageElement>(
+      createCustomElement({ selector: "img", class: "thumbnail__item" })
+    );
     photo.src = data.thumbnail;
-    photo.alt = 'ProductThumbnail';
+    photo.alt = "ProductThumbnail";
     productDataThumbnail.appendChild(photo);
     productDataPhotos.appendChild(productDataSlides);
     productDataPhotos.appendChild(productDataThumbnail);
@@ -31,23 +45,34 @@ class ProductDetails {
   }
 
   createProductInfo(data: types.IProductInfo) {
-    const productInfoWrapper = <HTMLDivElement>createCustomElement({selector : 'div', class : 'product-data__item'});
+    const productInfoWrapper = <HTMLDivElement>(
+      createCustomElement({ selector: "div", class: "product-data__item" })
+    );
     const productInfo = Object.entries(data);
-    for(let el of productInfo) {
+    for (const el of productInfo) {
       if (Object.values(types.DetailsOrder).includes(el[0])) {
-        const detail = <HTMLDivElement>createCustomElement({selector : 'div', class : 'item__detail'});
-        const cardCategory = <HTMLHeadingElement>createCustomElement({selector : 'h3', class : 'detail__category'});
-        const cardCategoryValue = <HTMLParagraphElement>createCustomElement({selector : 'p', class : 'detail__category-value'});
+        const detail = <HTMLDivElement>(
+          createCustomElement({ selector: "div", class: "item__detail" })
+        );
+        const cardCategory = <HTMLHeadingElement>(
+          createCustomElement({ selector: "h3", class: "detail__category" })
+        );
+        const cardCategoryValue = <HTMLParagraphElement>createCustomElement({
+          selector: "p",
+          class: "detail__category-value",
+        });
         let category = el[0].charAt(0).toUpperCase().concat(el[0].slice(1));
         let value = el[1];
-        if (el[0] === 'discountPercentage') {
+        if (el[0] === "discountPercentage") {
           value = `${el[1]}%`;
-          category = 'Discount Percentage';
+          category = "Discount Percentage";
         }
         cardCategoryValue.textContent = `${value}`;
         cardCategory.textContent = `${category}: `;
-        cardCategoryValue.classList.add(`${el[0].split(' ').join('')}`);
-        cardCategory.style.order = `${Object.values(types.DetailsOrder).indexOf(el[0])}`;
+        cardCategoryValue.classList.add(`${el[0].split(" ").join("")}`);
+        cardCategory.style.order = `${Object.values(types.DetailsOrder).indexOf(
+          el[0]
+        )}`;
         detail.appendChild(cardCategory);
         detail.appendChild(cardCategoryValue);
         productInfoWrapper.appendChild(detail);
@@ -56,34 +81,48 @@ class ProductDetails {
     return productInfoWrapper;
   }
   createAddCart(price: number) {
-    const cart = <HTMLDivElement>createCustomElement({selector : 'div', class : 'product-data__cart'});
-    const cartPrice = <HTMLParagraphElement>createCustomElement({selector : 'p', class : 'cart__price'});
-    const cartAdd = <HTMLButtonElement>createCustomElement({selector : 'button', class : 'item__button add'});
-    const cartBuy = <HTMLButtonElement>createCustomElement({selector : 'button', class : 'item__button details'});
+    const cart = <HTMLDivElement>(
+      createCustomElement({ selector: "div", class: "product-data__cart" })
+    );
+    const cartPrice = <HTMLParagraphElement>(
+      createCustomElement({ selector: "p", class: "cart__price" })
+    );
+    const cartAdd = <HTMLButtonElement>(
+      createCustomElement({ selector: "button", class: "item__button add" })
+    );
+    const cartBuy = <HTMLButtonElement>(
+      createCustomElement({ selector: "button", class: "item__button details" })
+    );
     cartPrice.textContent = `$${price}`;
-    cartAdd.textContent = 'Add to cart'.toUpperCase();
-    cartBuy.textContent = 'Buy now'.toUpperCase();
+    cartAdd.textContent = "Add to cart".toUpperCase();
+    cartBuy.textContent = "Buy now".toUpperCase();
     cart.appendChild(cartPrice);
     cart.appendChild(cartAdd);
     cart.appendChild(cartBuy);
     return cart;
   }
   createProductData(data: types.IProductInfo) {
-    const productData = <HTMLDivElement>createCustomElement({selector : 'div', class : 'details__product-data'});
+    const productData = <HTMLDivElement>(
+      createCustomElement({ selector: "div", class: "details__product-data" })
+    );
     productData.appendChild(this.createPhotos(data));
     productData.appendChild(this.createProductInfo(data));
     productData.appendChild(this.createAddCart(data.price));
     return productData;
   }
-  createDetails() {
-    const detailsContent = <HTMLDivElement>createCustomElement({selector : 'div', class : 'details__content'});
-    detailsContent.appendChild(this.createTitle(Products[0].title));
-    detailsContent.appendChild(this.createProductData(Products[0]));
+  createDetails(productIndex = 0) {
+    const detailsContent = <HTMLDivElement>(
+      createCustomElement({ selector: "div", class: "details__content" })
+    );
+    detailsContent.appendChild(this.createTitle(Products[productIndex].title));
+    detailsContent.appendChild(this.createProductData(Products[productIndex]));
     return detailsContent;
   }
 
-  draw() {
-    (document.querySelector('.page__details') as HTMLDivElement).appendChild(this.createDetails());
+  draw(productIndex = 0) {
+    (document.querySelector(".page__details") as HTMLDivElement).appendChild(
+      this.createDetails(productIndex)
+    );
   }
 }
 

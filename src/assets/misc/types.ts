@@ -52,6 +52,22 @@ export interface ISortObj {
   amount: number;
 }
 
+export enum CartText {
+  title = "Products in Cart",
+  titleItemLimit = "Items: ",
+  titlePageAmount = "Page: ",
+  summary = "Summary",
+  summaryProduct = "Products: ",
+  summaryTotal = "Total: ",
+  summaryPromoTest = "Promo for test: ",
+  promoTestCodes = `'RS', 'EPM'`,
+}
+
+export enum CartDefaultTitle {
+  items = 3,
+  pages = 1,
+  amount = 1,
+}
 export interface AppliedFilters {
   category?: string[];
   brand?: string[];

@@ -1,0 +1,66 @@
+.cart__page .cart__summary {
+  width: 29%;
+}
+
+.summary__heading {
+  text-align: center;
+  background-color: #181a1c;
+  padding: 0.3rem;
+}
+
+.summary__content,
+.summary__promo,
+.summary__total {
+  display: flex;
+  flex-flow: nowrap column;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* Влияет на тотал в хедере */
+/* .total__text {
+  width: 90%;
+  font-size: 170%;
+  text-align: center;
+  margin: 2%;
+} */
+
+.total__value {
+  color: wheat;
+  font-size: 90%;
+}
+
+.promo__code {
+  background-color: #181a1c;
+  width: 70%;
+  border: 1px solid orange;
+  color: orange;
+  border-radius: 2rem;
+  padding: 0.4rem;
+  text-align: center;
+  outline: none;
+  font-size: 100%;
+}
+
+.promo__test {
+  display: block;
+  margin: 3% auto;
+  text-align: center;
+  color: #e38383;
+  font-size: 90%;
+}
+
+.summary__button {
+  font-size: 100%;
+  display: block;
+  padding: 2% 0;
+  background: #9a3535;
+  color: wheat;
+  border: 2px solid orange;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  width: 50%;
+  margin: 3rem auto 1rem;
+}
