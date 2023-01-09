@@ -31,6 +31,11 @@
   flex-direction: column;
 }
 
+.card__item--in-cart {
+  box-shadow: 0 0 5px 2px #c45f07;
+  border: 1px solid rgb(235,68,68);
+}
+
 .item__heading {
   background: rgba(24,26,28,.8);
   padding: 1%;
@@ -69,8 +74,6 @@
 
 .item__buttons {
   display: flex;
-  justify-content: space-evenly;
-  height: 15%;
 }
 
 .item__button {
@@ -81,4 +84,8 @@
   padding-right: 2%;
   font-size: 80%;
   cursor: pointer;
+}
+
+.add, .details {
+  text-transform: uppercase;
 }

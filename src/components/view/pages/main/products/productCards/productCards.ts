@@ -8,7 +8,6 @@ class ProductCard {
   _detailsPage: DetailsPage;
   _productIndex?: number;
   _productsInCart: Array<types.IProductInfo> = [];
-  // _productsInCart: number[] = [];
   constructor() {
     this._detailsPage = new DetailsPage();
   }
@@ -36,23 +35,38 @@ class ProductCard {
   }
 
   private addToCart(event: MouseEvent) {
+    const button = event.target;
     if (
-      event.target instanceof HTMLButtonElement &&
-      event.target.parentElement &&
-      event.target.parentElement.previousSibling &&
-      event.target.parentElement.previousSibling.firstChild &&
-      event.target.parentElement.previousSibling.firstChild.firstChild &&
-      event.target.parentElement.previousSibling.firstChild
-        .firstChild instanceof HTMLSpanElement
+      button instanceof HTMLButtonElement &&
+      button.parentElement &&
+      button.parentElement.previousSibling &&
+      button.parentElement.previousSibling.firstChild &&
+      button.parentElement.previousSibling.firstChild.firstChild &&
+      button.parentElement.previousSibling.firstChild.firstChild instanceof
+        HTMLSpanElement
     ) {
+      const productCard = button.parentElement.parentElement;
       const productName =
-        event.target.parentElement.previousSibling.firstChild.firstChild
-          .innerHTML;
+        button.parentElement.previousSibling.firstChild.firstChild.innerHTML;
       const productCardInfo = Products.find(
         (product) => product.title === productName
       );
-      if (productCardInfo && !this._productsInCart.includes(productCardInfo))
-        this._productsInCart.push(productCardInfo);
+
+      if (!productCard?.classList.contains("card__item--in-cart")) {
+        button.textContent = "Drop from cart";
+        productCard?.classList.add("card__item--in-cart");
+        if (productCardInfo && !this._productsInCart.includes(productCardInfo))
+          this._productsInCart.push(productCardInfo);
+      } else {
+        button.textContent = "Add to cart";
+        productCard.classList.remove("card__item--in-cart");
+        if (productCardInfo) {
+          this._productsInCart.splice(
+            this._productsInCart.indexOf(productCardInfo),
+            1
+          );
+        }
+      }
     }
     const cartCounter = document.querySelector(".header__cart");
     if (cartCounter instanceof HTMLDivElement) {
@@ -145,6 +159,16 @@ class ProductCard {
     card.style.background = `url(${data.thumbnail}) 0% 0% / cover`;
     card.appendChild(cardItemDetailsWrapper);
     card.appendChild(this.createButtons());
+    if (
+      this._productsInCart.find(
+        (product) => product.title === cardItemTitle.textContent
+      )
+    ) {
+      card.classList.add("card__item--in-cart");
+      if (card.lastElementChild && card.lastElementChild.firstElementChild) {
+        card.lastElementChild.firstElementChild.textContent = "Drop from cart";
+      }
+    }
     cardWrapper.appendChild(card);
     return cardWrapper;
   }
