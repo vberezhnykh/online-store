@@ -72,7 +72,6 @@ class Header {
           event.target.classList.contains("cart__image") ||
           event.target.classList.contains("header__cart")
         ) {
-          console.log(event.target);
           this.openCart();
         }
       }

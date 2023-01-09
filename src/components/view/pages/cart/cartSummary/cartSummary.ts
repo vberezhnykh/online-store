@@ -1,10 +1,15 @@
 import { createCustomElement } from "../../../../../assets/misc/func";
 import * as types from "../../../../../assets/misc/types";
 import PRODUCTS from "../../../../../products";
+import Modal from "../../modal/modal";
 import "./cartSummary.scss";
 
 class CartSummary {
   _productsInCart: Array<types.IProductInfo> = [];
+  _modal: Modal;
+  constructor() {
+    this._modal = new Modal();
+  }
   createHeading() {
     const title = <HTMLDivElement>(
       createCustomElement({ selector: "div", class: "summary__title title" })
@@ -70,6 +75,10 @@ class CartSummary {
       createCustomElement({ selector: "button", class: "summary__button" })
     );
     btnBuyNow.textContent = "Buy now".toUpperCase();
+    btnBuyNow.addEventListener("click", () => {
+      this._modal.draw();
+    });
+
     quantity.appendChild(this.createTotal(data));
     quantity.appendChild(this.createPromo());
     quantity.appendChild(btnBuyNow);

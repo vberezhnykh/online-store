@@ -31,6 +31,8 @@ class Modal implements IModal {
         const randomSec = Math.floor(Math.random() * (5000 - 3000 + 1) + 3000);
         setTimeout(() => {
           document.querySelector(".modal-overlay")?.remove();
+          const logoImage = document.querySelector(".logo__image");
+          if (logoImage instanceof HTMLElement) logoImage.click();
         }, randomSec);
       }
     }

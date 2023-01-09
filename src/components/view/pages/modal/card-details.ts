@@ -205,7 +205,7 @@ export class CardDetails implements ICardDetails {
     if (!regEx.test(input.value[input.value.length - 1]))
       input.value = input.value.slice(0, input.value.length - 1);
     if (input.value.length > 3) input.value = input.value.slice(0, 3);
-    this._isValidCvv = true;
+    if (input.value.length === 3) this._isValidCvv = true;
     return this.toggleErrorMessage("cvv", this._isValidCvv);
   }
 
