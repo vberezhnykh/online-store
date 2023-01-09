@@ -1,9 +1,15 @@
 import { createCustomElement } from "../../../../../../assets/misc/func";
 import * as types from "../../../../../../assets/misc/types";
 import Products from "../../../../../../products";
+import DetailsPage from "../../../details/detailsPage";
 import "./productCards.scss";
 
 class ProductCard {
+  _detailsPage: DetailsPage;
+  _productIndex?: number;
+  constructor() {
+    this._detailsPage = new DetailsPage();
+  }
   createButtons() {
     const cardButtonsArea = <HTMLDivElement>(
       createCustomElement({ selector: "div", class: "item__buttons" })
@@ -16,6 +22,29 @@ class ProductCard {
     );
     cardButtonAddToCart.textContent = "Add to cart";
     cardButtonDetails.textContent = "Details";
+    cardButtonDetails.onclick = (event) => {
+      if (
+        event.target instanceof HTMLButtonElement &&
+        event.target.parentElement &&
+        event.target.parentElement.previousSibling &&
+        event.target.parentElement.previousSibling.firstChild &&
+        event.target.parentElement.previousSibling.firstChild.firstChild &&
+        event.target.parentElement.previousSibling.firstChild
+          .firstChild instanceof HTMLSpanElement
+      ) {
+        const productName =
+          event.target.parentElement.previousSibling.firstChild.firstChild
+            .innerHTML;
+        this._productIndex = Products.findIndex(
+          (product) => product.title === productName
+        );
+        const pageContainer = document.querySelector(".page__container");
+        if (pageContainer) {
+          pageContainer.innerHTML = "";
+          this._detailsPage.draw(this._productIndex);
+        }
+      }
+    };
     cardButtonsArea.appendChild(cardButtonAddToCart);
     cardButtonsArea.appendChild(cardButtonDetails);
     return cardButtonsArea;

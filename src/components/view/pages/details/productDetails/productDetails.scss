@@ -94,12 +94,13 @@
 .item__button {
   font-size: 40%;
   display: block;
-  padding: 7% 0;
+  /* Нужно подумать насчет порядка подключения стилей, оригинальные стили из productCards перезаписываются */
+  /* padding: 7% 0;
+  margin: 1rem auto; */
   background: #9a3535;
   color: wheat;
   border: 2px solid orange;
   border-radius: 0.3rem;
   cursor: pointer;
   width: 100%;
-  margin: 1rem auto;
 }
