@@ -3,13 +3,16 @@ import cartImg from "../../../assets/images/header/cart.svg";
 import bagImg from "../../../assets/images/header/bag.svg";
 import MainPage from "../pages/main/mainPage";
 import Filters from "../pages/main/filters/filters";
+import CartPage from "../pages/cart/cartPage";
 
 class Header {
   _pageMain: MainPage;
   _filters: Filters;
-  constructor(pageMain: MainPage, filters: Filters) {
+  _cart: CartPage;
+  constructor(pageMain: MainPage, filters: Filters, cart: CartPage) {
     this._pageMain = pageMain;
     this._filters = filters;
+    this._cart = cart;
   }
   createLogoCart(type: string) {
     const parent = <HTMLDivElement>(
@@ -62,11 +65,16 @@ class Header {
       container
     );
     container.addEventListener("click", (event) => {
-      if (
-        event.target instanceof HTMLElement &&
-        event.target.classList.contains("logo__image")
-      ) {
-        this.backToHomePage();
+      if (event.target instanceof HTMLElement) {
+        if (event.target.classList.contains("logo__image")) {
+          this.backToHomePage();
+        } else if (
+          event.target.classList.contains("cart__image") ||
+          event.target.classList.contains("header__cart")
+        ) {
+          console.log(event.target);
+          this.openCart();
+        }
       }
     });
   }
@@ -82,6 +90,14 @@ class Header {
           ".filters-buttons-container__reset-button"
         ) as HTMLButtonElement
       ).click();
+    }
+  }
+
+  openCart() {
+    const pageContainer = document.querySelector(".page__container");
+    if (pageContainer) {
+      pageContainer.innerHTML = "";
+      this._cart.draw();
     }
   }
 }

@@ -9,14 +9,14 @@ class AppView {
   footer: Footer;
   pageMain: Main;
   filters: Filters;
-  // page: Cart;
+  cart: Cart;
 
   constructor() {
     this.pageMain = new Main();
     this.filters = new Filters(this.pageMain);
-    this.header = new Header(this.pageMain, this.filters);
+    this.cart = new Cart(this.pageMain.products.cardArea._productsInCart);
+    this.header = new Header(this.pageMain, this.filters, this.cart);
     this.footer = new Footer();
-    // this.page = new Cart();
   }
 
   drawPage() {
@@ -24,7 +24,6 @@ class AppView {
     this.footer.draw();
     this.pageMain.draw();
     this.filters.draw();
-    // this.page.draw();
   }
 }
 
