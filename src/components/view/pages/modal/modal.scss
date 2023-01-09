@@ -1,0 +1,192 @@
+.modal-overlay {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 2;
+}
+
+.modal {
+  width: 600px;
+  min-height: 600px;
+  border: 1px solid orange;
+  border-radius: 0.5rem;
+  background: #181a1c;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  padding: 1%;
+}
+
+.modal--ordered {
+  text-align: center;
+  min-height: fit-content;
+}
+
+.personal-details__heading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.name-container,
+.number-container,
+.address-container,
+.email-container {
+  display: flex;
+  align-items: center;
+}
+
+.name__input,
+.number__input,
+.address__input,
+.email__input {
+  border: 2px solid orange;
+  border-radius: 2rem;
+  padding: 0.4rem;
+  outline: none;
+  text-align: center;
+  flex-grow: 1;
+  background-color: transparent;
+  color: orange;
+  margin: 2% auto;
+}
+
+.name__error,
+.number__error,
+.address__error,
+.email__error {
+  width: 0%;
+  color: red;
+  font-weight: bold;
+  font-size: 0;
+  text-align: center;
+  transition: 0.2s;
+  visibility: hidden;
+}
+
+.name__error--active,
+.number__error--active,
+.address__error--active,
+.email__error--active {
+  visibility: visible;
+  width: 30%;
+  font-size: 1rem;
+}
+
+.card-data {
+  width: 75%;
+  border: 1px solid orange;
+  border-radius: 2rem;
+  margin: 0 auto;
+  background: linear-gradient(90deg,rgb(0,9,36) 6%,rgb(9,9,121) 34%,rgb(0,212,255) 100%);
+}
+
+.card-number {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 7% auto 10%;
+}
+
+.card-number__input {
+  background: rgb(233,233,202);
+  border: 1px solid orange;
+  border-radius: 0.3rem;
+  outline: none;
+  text-align: center;
+  margin-left: 2%;
+  font-size: 90%;
+  color: #000;
+  font-weight: 700;
+  width: 60%;
+}
+
+.card-number__input::-webkit-outer-spin-button,
+.card-number__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.other-card-data {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 90%;
+  margin: 0 auto 5%;
+}
+
+.valid-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50%;
+
+  &::before {
+    content: 'VALID:';
+    font-size: 1rem;
+    color: orange;
+  }
+
+}
+
+.cvv-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 50%;
+
+  &::before {
+    content: 'CVV:';
+    font-size: 1rem;
+    color: orange;
+  }
+}
+
+.valid__input,
+.cvv__input {
+  background: rgb(233,233,202);
+  border: 1px solid orange;
+  border-radius: 0.3rem;
+  outline: none;
+  text-align: center;
+  margin-left: 2%;
+  width: 50%;
+  color: black;
+  
+  &::placeholder {
+    font-size: 0.7rem;
+  }
+}
+
+.card-number__error,
+.valid__error,
+.cvv__error {
+  margin-top: 1%;
+  color: red;
+  font-weight: bold;
+  font-size: 0;
+  text-align: center;
+  transition: 0.2s;
+  visibility: hidden;
+}
+
+.card-number__error--active,
+.valid__error--active,
+.cvv__error--active {
+  visibility: visible;
+  font-size: 1rem;
+}
+
+.modal__confirm-button {
+  width: 40%;
+  font-size: 90%;
+  background-color: #3f1010;
+  border: 1px solid orange;
+  border-radius: 0.5rem;
+  padding: 1%;
+  cursor: pointer;
+  margin: 1% auto;
+}

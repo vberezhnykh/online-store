@@ -7,6 +7,8 @@ import "./productCards.scss";
 class ProductCard {
   _detailsPage: DetailsPage;
   _productIndex?: number;
+  _productsInCart: Array<types.IProductInfo> = [];
+  // _productsInCart: number[] = [];
   constructor() {
     this._detailsPage = new DetailsPage();
   }
@@ -21,33 +23,65 @@ class ProductCard {
       createCustomElement({ selector: "button", class: "item__button details" })
     );
     cardButtonAddToCart.textContent = "Add to cart";
+    cardButtonAddToCart.onclick = (event) => {
+      this.addToCart(event);
+    };
     cardButtonDetails.textContent = "Details";
     cardButtonDetails.onclick = (event) => {
-      if (
-        event.target instanceof HTMLButtonElement &&
-        event.target.parentElement &&
-        event.target.parentElement.previousSibling &&
-        event.target.parentElement.previousSibling.firstChild &&
-        event.target.parentElement.previousSibling.firstChild.firstChild &&
-        event.target.parentElement.previousSibling.firstChild
-          .firstChild instanceof HTMLSpanElement
-      ) {
-        const productName =
-          event.target.parentElement.previousSibling.firstChild.firstChild
-            .innerHTML;
-        this._productIndex = Products.findIndex(
-          (product) => product.title === productName
-        );
-        const pageContainer = document.querySelector(".page__container");
-        if (pageContainer) {
-          pageContainer.innerHTML = "";
-          this._detailsPage.draw(this._productIndex);
-        }
-      }
+      this.openDetails(event);
     };
     cardButtonsArea.appendChild(cardButtonAddToCart);
     cardButtonsArea.appendChild(cardButtonDetails);
     return cardButtonsArea;
+  }
+
+  private addToCart(event: MouseEvent) {
+    if (
+      event.target instanceof HTMLButtonElement &&
+      event.target.parentElement &&
+      event.target.parentElement.previousSibling &&
+      event.target.parentElement.previousSibling.firstChild &&
+      event.target.parentElement.previousSibling.firstChild.firstChild &&
+      event.target.parentElement.previousSibling.firstChild
+        .firstChild instanceof HTMLSpanElement
+    ) {
+      const productName =
+        event.target.parentElement.previousSibling.firstChild.firstChild
+          .innerHTML;
+      const productCardInfo = Products.find(
+        (product) => product.title === productName
+      );
+      if (productCardInfo && !this._productsInCart.includes(productCardInfo))
+        this._productsInCart.push(productCardInfo);
+    }
+    const cartCounter = document.querySelector(".header__cart");
+    if (cartCounter instanceof HTMLDivElement) {
+      cartCounter.dataset.value = this._productsInCart.length.toString();
+    }
+  }
+
+  private openDetails(event: MouseEvent) {
+    if (
+      event.target instanceof HTMLButtonElement &&
+      event.target.parentElement &&
+      event.target.parentElement.previousSibling &&
+      event.target.parentElement.previousSibling.firstChild &&
+      event.target.parentElement.previousSibling.firstChild.firstChild &&
+      event.target.parentElement.previousSibling.firstChild
+        .firstChild instanceof HTMLSpanElement
+    ) {
+      const productName =
+        event.target.parentElement.previousSibling.firstChild.firstChild
+          .innerHTML;
+      this._productIndex = Products.findIndex(
+        (product) => product.title === productName
+      );
+      const pageContainer = document.querySelector(".page__container");
+      if (pageContainer) {
+        pageContainer.innerHTML = "";
+        this._detailsPage.draw(this._productIndex);
+      }
+    }
   }
 
   createCard(data: Omit<types.IProductInfo, "images">) {
